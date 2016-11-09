@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tKR-9t-nGL">
+                                <rect key="frame" x="0.0" y="20" width="375" height="398"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="N1Y-A5-FM5">
+                                    <rect key="frame" x="0.0" y="72" width="375" height="0.0"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Message" id="yJN-PU-Mfe" customClass="TableViewCell" customModule="Example" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yJN-PU-Mfe" id="9Sr-XW-R1t">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d9V-Gf-fNF">
+                                                    <rect key="frame" x="8" y="8" width="359" height="27.5"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="d9V-Gf-fNF" secondAttribute="bottom" constant="8" id="A0F-zp-Upp"/>
+                                                <constraint firstItem="d9V-Gf-fNF" firstAttribute="leading" secondItem="9Sr-XW-R1t" secondAttribute="leading" constant="8" id="DHK-jY-zej"/>
+                                                <constraint firstItem="d9V-Gf-fNF" firstAttribute="top" secondItem="9Sr-XW-R1t" secondAttribute="top" constant="8" id="djv-l7-LlK"/>
+                                                <constraint firstAttribute="trailing" secondItem="d9V-Gf-fNF" secondAttribute="trailing" constant="8" id="pn7-WZ-s1T"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textView" destination="d9V-Gf-fNF" id="TBw-Dj-EEm"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="pnr-Gx-TAh"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="lve-3I-JGe"/>
+                                </connections>
+                            </tableView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kbU-Pe-t0h">
+                                <rect key="frame" x="0.0" y="418" width="313" height="33"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mI7-4M-MgZ">
+                                <rect key="frame" x="321" y="421" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="Osg-AD-P8G"/>
+                                </constraints>
+                                <state key="normal" title="Send"/>
+                                <connections>
+                                    <action selector="sendAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="J38-Gi-Mnq"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="tKR-9t-nGL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="FYp-nh-zbR"/>
+                            <constraint firstItem="kbU-Pe-t0h" firstAttribute="top" secondItem="tKR-9t-nGL" secondAttribute="bottom" id="GHs-yy-rKf"/>
+                            <constraint firstItem="kbU-Pe-t0h" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="IAE-Zc-ego"/>
+                            <constraint firstAttribute="trailing" secondItem="mI7-4M-MgZ" secondAttribute="trailing" constant="8" id="IPx-3O-JTQ"/>
+                            <constraint firstItem="mI7-4M-MgZ" firstAttribute="leading" secondItem="kbU-Pe-t0h" secondAttribute="trailing" constant="8" id="MNi-Hh-GwU"/>
+                            <constraint firstItem="mI7-4M-MgZ" firstAttribute="bottom" secondItem="kbU-Pe-t0h" secondAttribute="bottom" id="NbA-Dm-jzp"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="kbU-Pe-t0h" secondAttribute="bottom" constant="216" id="W3F-S9-2Db"/>
+                            <constraint firstItem="tKR-9t-nGL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="20" id="pKE-O7-ycs"/>
+                            <constraint firstAttribute="trailing" secondItem="tKR-9t-nGL" secondAttribute="trailing" id="xyE-E5-iBH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="inputTextView" destination="kbU-Pe-t0h" id="dhG-H3-QrX"/>
+                        <outlet property="messagesTableView" destination="tKR-9t-nGL" id="Y58-Ov-ZxC"/>
+                        <outlet property="sendButton" destination="mI7-4M-MgZ" id="i04-GM-QWg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="138.98050974512745"/>
+        </scene>
+    </scenes>
+</document>

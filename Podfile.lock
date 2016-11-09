@@ -1,0 +1,64 @@
+PODS:
+  - Alamofire (4.0.1)
+  - AlamofireImage (3.1.0):
+    - Alamofire (~> 4.0)
+  - AwesomeCache (4.0)
+  - FastImageCache (1.5.1)
+  - GBDeviceInfo (4.2.2):
+    - GBDeviceInfo/Core (= 4.2.2)
+  - GBDeviceInfo/Core (4.2.2)
+  - KarmiesSDK (2.0.0):
+    - Alamofire (~> 4.0)
+    - AlamofireImage (~> 3.1)
+    - AwesomeCache (~> 4.0)
+    - FastImageCache (~> 1.5)
+    - GBDeviceInfo (~> 4.2)
+    - ObjectMapper (~> 2.1)
+  - ObjectMapper (2.2.1)
+
+DEPENDENCIES:
+  - Alamofire (from `https://github.com/karmies/Alamofire`, branch `ios8`)
+  - AlamofireImage (from `https://github.com/karmies/AlamofireImage`, branch `ios8`)
+  - AwesomeCache (from `https://github.com/karmies/AwesomeCache`, branch `master`)
+  - KarmiesSDK (from `https://github.com/karmies/KarmiesSDK`, branch `master`)
+
+EXTERNAL SOURCES:
+  Alamofire:
+    :branch: ios8
+    :git: https://github.com/karmies/Alamofire
+  AlamofireImage:
+    :branch: ios8
+    :git: https://github.com/karmies/AlamofireImage
+  AwesomeCache:
+    :branch: master
+    :git: https://github.com/karmies/AwesomeCache
+  KarmiesSDK:
+    :branch: master
+    :git: https://github.com/karmies/KarmiesSDK
+
+CHECKOUT OPTIONS:
+  Alamofire:
+    :commit: 9c59ab9126cd173824bfe9902beb8d9ebda043d1
+    :git: https://github.com/karmies/Alamofire
+  AlamofireImage:
+    :commit: e7b06b4fdffe2e54aec36ceefc756bb9b19aef0f
+    :git: https://github.com/karmies/AlamofireImage
+  AwesomeCache:
+    :commit: 2328030804551aa37556185a08f99f392148c454
+    :git: https://github.com/karmies/AwesomeCache
+  KarmiesSDK:
+    :commit: c8d12f549d575e801cc52bf1ada9f44aee3b02cc
+    :git: https://github.com/karmies/KarmiesSDK
+
+SPEC CHECKSUMS:
+  Alamofire: 0b7d0ce589b3ee4e8d9b1bf5baa604e6a555b54b
+  AlamofireImage: abfe356c1f1ed2aa64eef4bb96daba2eb00d12d8
+  AwesomeCache: bffbbf8933a8ab29e6e389827c15862c65f9ddbe
+  FastImageCache: 2e7a6f677b15336eb3d1a4092a494676256c891d
+  GBDeviceInfo: 0a6e2fc04989ce248572bb988f1a764102eb0e5d
+  KarmiesSDK: d89c19d99be2e5ede752d6e10553bf27cbfb84d5
+  ObjectMapper: 41e43e1a89f8060ef5ea5d04ba852e269a621d68
+
+PODFILE CHECKSUM: 64059053060ccd840f47e9e276af6d0c84324987
+
+COCOAPODS: 1.1.1
