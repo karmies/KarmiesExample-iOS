@@ -23,7 +23,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         
         // Create controller for managing Karmies keyboard and automatically toggling the OS keyboard
-        karmiesController = KarmiesController(hostInputTextView: inputTextView, toggleEmbeddedKeyboard: true)
+        karmiesController = KarmiesController(hostInputTextView: inputTextView, toggleEmbeddedKeyboard: true, autoSuggest: true)
         
         // Reload messages when content changes
         karmiesController.messageWasChangedHandler = { [unowned self] (forced) in
@@ -40,9 +40,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableAction(_ sender: UIGestureRecognizer) {
         let messageView = sender.view as! UITextView
         let messagePoint  = sender.location(in: messageView)
-        if let messageLink = KarmiesContext.shared.messages.link(at: messagePoint, in: messageView, outgoing: true) {
-            if KarmiesContext.shared.messages.isSerializedMessage(messageLink), let messageURL = URL(string: messageLink) {
-                KarmiesContext.shared.presentViewFeatureController(with: messageURL)
+        if let messageLink = Karmies.shared.messages.link(at: messagePoint, in: messageView, outgoing: true) {
+            if Karmies.shared.messages.isSerializedMessage(messageLink), let messageURL = URL(string: messageLink) {
+                Karmies.shared.presentViewFeatureController(with: messageURL)
             }
         }
     }
@@ -61,7 +61,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // Deserialize any Karmies URLs in plain message text to form an attributed string for display
         cell.textView?.text = ""
-        KarmiesContext.shared.messages.deserializeMessage(serializedText, outgoing: true) { (attributedText) in
+        Karmies.shared.messages.deserializeMessage(serializedText, outgoing: true) { (attributedText) in
             cell.textView?.attributedText = attributedText
         }
         
@@ -78,14 +78,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let serializedText = messages[indexPath.row]
         
         // Send impression analytics when displayed
-        KarmiesContext.shared.analytics.sendMessageImpressionEvents(message: serializedText, isSent: true)
+        Karmies.shared.analytics.sendMessageImpressionEvents(message: serializedText, isSent: true)
     }
     
     @IBAction func sendAction(_ sender: Any) {
         if let attributedText = inputTextView.attributedText , attributedText.length > 0 {
             
             // Serialize attributed text with any Karmies embedded into plain text with URLs
-            let serializedText = KarmiesContext.shared.messages.serializeMessage(from: attributedText)
+            let serializedText = Karmies.shared.messages.serializeMessage(from: attributedText)
             
             messages.append(serializedText)
             inputTextView.text = ""

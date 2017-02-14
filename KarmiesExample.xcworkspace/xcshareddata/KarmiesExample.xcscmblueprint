@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "F49DBF5FABE355928911F2EA97D110238F728818",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "F49DBF5FABE355928911F2EA97D110238F728818" : 9223372036854775807,
+    "5E27CFE48A6EF3052BBED52115027EDB2FC566E6" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "AFB018B7-1F73-41E7-838E-9A0520F32F0D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "F49DBF5FABE355928911F2EA97D110238F728818" : "KarmiesExample-iOS\/",
+    "5E27CFE48A6EF3052BBED52115027EDB2FC566E6" : "karmies-sdk-cocoa\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "KarmiesExample",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "KarmiesExample.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:karmies\/karmies-sdk-cocoa.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5E27CFE48A6EF3052BBED52115027EDB2FC566E6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:karmies\/KarmiesExample-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F49DBF5FABE355928911F2EA97D110238F728818"
+    }
+  ]
+}

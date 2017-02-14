@@ -1,0 +1,6 @@
+framework module KarmiesSDK {
+  umbrella header "KarmiesSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}
