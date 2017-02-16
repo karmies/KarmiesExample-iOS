@@ -9,9 +9,19 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>KarmiesExample_PSMAdKit.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>DA651E5A1E5705E80031B95C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>DA70811C1DD3D7EC001811FF</key>
 		<dict>
 			<key>primary</key>

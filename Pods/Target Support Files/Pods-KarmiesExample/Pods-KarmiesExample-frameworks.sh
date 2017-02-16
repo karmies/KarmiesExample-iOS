@@ -94,10 +94,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
   install_framework "$BUILT_PRODUCTS_DIR/AlamofireImage/AlamofireImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/AwesomeCache/AwesomeCache.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/CKCircleMenuView/CKCircleMenuView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FastImageCache/FastImageCache.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GBDeviceInfo/GBDeviceInfo.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/KarmiesSDK/KarmiesSDK.framework"
+  install_framework "${PODS_ROOT}/KarmiesSDK/KarmiesSDK.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ObjectMapper/ObjectMapper.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -106,10 +105,9 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
   install_framework "$BUILT_PRODUCTS_DIR/AlamofireImage/AlamofireImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/AwesomeCache/AwesomeCache.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/CKCircleMenuView/CKCircleMenuView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FastImageCache/FastImageCache.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GBDeviceInfo/GBDeviceInfo.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/KarmiesSDK/KarmiesSDK.framework"
+  install_framework "${PODS_ROOT}/KarmiesSDK/KarmiesSDK.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ObjectMapper/ObjectMapper.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

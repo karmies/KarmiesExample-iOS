@@ -29,11 +29,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>CKCircleMenuView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>FastImageCache.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -44,12 +39,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>KarmiesSDK-KarmiesResources.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>KarmiesSDK.xcscheme</key>
+		<key>KarmiesSDK-PSMAdKit-PSMAdKitSDKBundle.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -64,6 +54,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-KarmiesExample_PSMAdKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -72,17 +67,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>29E234F422325BFB53877266A3BA2DC1</key>
+		<key>046A230F5BC0600EED56B9210FDEE635</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3B2718689E736EAD8CA8BB402DFB1A7F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4510FDBEFF7431393F1BBC116955EFC4</key>
+		<key>148C0C45F4CA688BF10D4E6473279D02</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -97,7 +87,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7B69DB2AAA8CB2EA3E7E837D6822AA75</key>
+		<key>7F58622155320FA19303C0499D01D828</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,12 +107,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D4695AD57F0A030C0F3367E66717D06C</key>
+		<key>B43918AB915242B851ABEFB5D70BE0AD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EC7FEBDD6FD07B85A65A7DF8B6F850C2</key>
+		<key>D4695AD57F0A030C0F3367E66717D06C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

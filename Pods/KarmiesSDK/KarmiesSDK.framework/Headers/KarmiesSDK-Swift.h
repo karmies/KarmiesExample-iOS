@@ -771,6 +771,7 @@ SWIFT_CLASS("_TtC10KarmiesSDK24KarmiesWebViewController")
 - (nonnull instancetype)initWithUrl:(NSURL * _Nonnull)url topOffset:(CGFloat)topOffset bottomOffset:(CGFloat)bottomOffset OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 - (void)viewDidLoad;
+- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^ _Nullable)(void))completion;
 - (void)webView:(WKWebView * _Nonnull)webView didCommitNavigation:(WKNavigation * _Null_unspecified)navigation;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
