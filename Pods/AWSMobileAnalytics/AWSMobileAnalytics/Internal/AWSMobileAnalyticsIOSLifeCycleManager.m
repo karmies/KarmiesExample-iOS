@@ -130,11 +130,6 @@ NSString* const AWSInsightsBackgroundQueueKey = @"com.amazon.insights.AWSMobileA
 
 -(void)executeBackgroundTasks:(AWSBackgroundQueue*) queue
 {
-    UIApplication *app = [UIApplication sharedApplication];
-    __block UIBackgroundTaskIdentifier task = [app beginBackgroundTaskWithExpirationHandler:^{
-        [app endBackgroundTask:task];
-        task = UIBackgroundTaskInvalid;
-    }];
     // Start the long-running task and return immediately.
     __block NSUInteger blockCount = [queue count];
     if(blockCount == 0)
@@ -152,8 +147,6 @@ NSString* const AWSInsightsBackgroundQueueKey = @"com.amazon.insights.AWSMobileA
                 blockCount--;
                 if(blockCount == 0)
                 {
-                    [app endBackgroundTask:task];
-                    task = UIBackgroundTaskInvalid;
                 }
             }
             @finally

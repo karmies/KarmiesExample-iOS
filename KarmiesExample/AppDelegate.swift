@@ -16,8 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-         // Configure Karmies
-        Karmies.shared.configure(clientID: "default", monitorLocation: true, ready: {
+         // Configure Karmies on app launch
+        Karmies.shared.configure(application: application, clientID: "default", monitorLocation: true, ready: {
             print("Karmies ready")
         }, complete: {
             print("Karmies complete")
@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         
-        // Update Karmies
+        // Update Karmies on app resume
         Karmies.shared.update(reload: false, ready: {
             print("Karmies ready")
         }, complete: {

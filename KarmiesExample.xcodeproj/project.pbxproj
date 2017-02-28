@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		8483726B8138F2089D7C8B5C /* Pods_KarmiesExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C387C07EDC39321E0DAD0E5E /* Pods_KarmiesExample.framework */; };
 		97ABBD2815193C1FD9F11EE9 /* Pods_KarmiesExample_PSMAdKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E56363BA38E5CB14022AF0 /* Pods_KarmiesExample_PSMAdKit.framework */; };
+		DA5DC6AA1E66207300DD05B8 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5DC6A91E66207300DD05B8 /* Messages.framework */; };
+		DA5DC6AD1E66207300DD05B8 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5DC6AC1E66207300DD05B8 /* MessagesViewController.swift */; };
+		DA5DC6B01E66207300DD05B8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA5DC6AE1E66207300DD05B8 /* MainInterface.storyboard */; };
+		DA5DC6B21E66207300DD05B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA5DC6B11E66207300DD05B8 /* Assets.xcassets */; };
+		DA5DC6B61E66207300DD05B8 /* MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DA5DC6A81E66207300DD05B8 /* MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DA651E5E1E5705E80031B95C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA651E5D1E5705E80031B95C /* AppDelegate.swift */; };
 		DA651E6D1E57064F0031B95C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7081221DD3D7EC001811FF /* ViewController.swift */; };
 		DA651E6E1E5706510031B95C /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6B60E1DD6584100C8565A /* TableViewCell.swift */; };
@@ -52,15 +57,49 @@
 		DA7081281DD3D7EC001811FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA7081271DD3D7EC001811FF /* Assets.xcassets */; };
 		DA70812B1DD3D7EC001811FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7081291DD3D7EC001811FF /* LaunchScreen.storyboard */; };
 		DAC6B60F1DD6584100C8565A /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6B60E1DD6584100C8565A /* TableViewCell.swift */; };
+		FECA9029F8F642FD0207B441 /* Pods_MessagesExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FCDF9FAF5F7C1932FC7EB7 /* Pods_MessagesExtension.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DA5DC6B41E66207300DD05B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA7081151DD3D7EC001811FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA5DC6A71E66207300DD05B8;
+			remoteInfo = MessagesExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DA5DC6BA1E66207300DD05B8 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				DA5DC6B61E66207300DD05B8 /* MessagesExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A0A8EF971755B5D78ED058C /* Pods-KarmiesExample_PSMAdKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarmiesExample_PSMAdKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-KarmiesExample_PSMAdKit/Pods-KarmiesExample_PSMAdKit.release.xcconfig"; sourceTree = "<group>"; };
+		12484F72BBE279D4EA0108C8 /* Pods-MessagesExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesExtension/Pods-MessagesExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		2494125E81DB32C7B9426F79 /* Pods-MessagesExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesExtension/Pods-MessagesExtension.release.xcconfig"; sourceTree = "<group>"; };
 		27CF83AFA812C185291D169F /* Pods-KarmiesExample_PSMAdKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarmiesExample_PSMAdKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KarmiesExample_PSMAdKit/Pods-KarmiesExample_PSMAdKit.debug.xcconfig"; sourceTree = "<group>"; };
 		30E56363BA38E5CB14022AF0 /* Pods_KarmiesExample_PSMAdKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KarmiesExample_PSMAdKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A59E9866CF6BF88581BD820 /* Pods-KarmiesExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarmiesExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-KarmiesExample/Pods-KarmiesExample.release.xcconfig"; sourceTree = "<group>"; };
+		97FCDF9FAF5F7C1932FC7EB7 /* Pods_MessagesExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessagesExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C387C07EDC39321E0DAD0E5E /* Pods_KarmiesExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KarmiesExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3935F9C3950E716E6A3CA11 /* Pods-KarmiesExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarmiesExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KarmiesExample/Pods-KarmiesExample.debug.xcconfig"; sourceTree = "<group>"; };
+		DA5DC6A81E66207300DD05B8 /* MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MessagesExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA5DC6A91E66207300DD05B8 /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
+		DA5DC6AC1E66207300DD05B8 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		DA5DC6AF1E66207300DD05B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		DA5DC6B11E66207300DD05B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DA5DC6B31E66207300DD05B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA651E5B1E5705E80031B95C /* ExamplePSM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamplePSM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA651E5D1E5705E80031B95C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA651EC01E57190C0031B95C /* PSMAdKitSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSMAdKitSDK.framework; path = "Pods/KarmiesSDK-PSMAdKit/PSMAdKitSDK.framework"; sourceTree = "<group>"; };
@@ -106,6 +145,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DA5DC6A51E66207300DD05B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA5DC6AA1E66207300DD05B8 /* Messages.framework in Frameworks */,
+				FECA9029F8F642FD0207B441 /* Pods_MessagesExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA651E581E5705E80031B95C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,8 +241,21 @@
 				DAF307E11E56E6D600C27192 /* AdSupport.framework */,
 				C387C07EDC39321E0DAD0E5E /* Pods_KarmiesExample.framework */,
 				30E56363BA38E5CB14022AF0 /* Pods_KarmiesExample_PSMAdKit.framework */,
+				DA5DC6A91E66207300DD05B8 /* Messages.framework */,
+				97FCDF9FAF5F7C1932FC7EB7 /* Pods_MessagesExtension.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA5DC6AB1E66207300DD05B8 /* MessagesExtension */ = {
+			isa = PBXGroup;
+			children = (
+				DA5DC6AC1E66207300DD05B8 /* MessagesViewController.swift */,
+				DA5DC6AE1E66207300DD05B8 /* MainInterface.storyboard */,
+				DA5DC6B11E66207300DD05B8 /* Assets.xcassets */,
+				DA5DC6B31E66207300DD05B8 /* Info.plist */,
+			);
+			path = MessagesExtension;
 			sourceTree = "<group>";
 		};
 		DA651E5C1E5705E80031B95C /* KarmiesExample_PSMAdKit */ = {
@@ -209,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				DA70811F1DD3D7EC001811FF /* KarmiesExample */,
+				DA5DC6AB1E66207300DD05B8 /* MessagesExtension */,
 				DA651E5C1E5705E80031B95C /* KarmiesExample_PSMAdKit */,
 				DA70811E1DD3D7EC001811FF /* Products */,
 				FBA53DC8CA31CCE45AD8DB32 /* Pods */,
@@ -221,6 +283,7 @@
 			children = (
 				DA70811D1DD3D7EC001811FF /* Example.app */,
 				DA651E5B1E5705E80031B95C /* ExamplePSM.app */,
+				DA5DC6A81E66207300DD05B8 /* MessagesExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -246,6 +309,8 @@
 				5A59E9866CF6BF88581BD820 /* Pods-KarmiesExample.release.xcconfig */,
 				27CF83AFA812C185291D169F /* Pods-KarmiesExample_PSMAdKit.debug.xcconfig */,
 				0A0A8EF971755B5D78ED058C /* Pods-KarmiesExample_PSMAdKit.release.xcconfig */,
+				12484F72BBE279D4EA0108C8 /* Pods-MessagesExtension.debug.xcconfig */,
+				2494125E81DB32C7B9426F79 /* Pods-MessagesExtension.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -253,6 +318,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		DA5DC6A71E66207300DD05B8 /* MessagesExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA5DC6B91E66207300DD05B8 /* Build configuration list for PBXNativeTarget "MessagesExtension" */;
+			buildPhases = (
+				6A7C3EB86253C8C72856ACAA /* [CP] Check Pods Manifest.lock */,
+				DA5DC6A41E66207300DD05B8 /* Sources */,
+				DA5DC6A51E66207300DD05B8 /* Frameworks */,
+				DA5DC6A61E66207300DD05B8 /* Resources */,
+				F48308C9A9D3B277FD258BE4 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MessagesExtension;
+			productName = MessagesExtension;
+			productReference = DA5DC6A81E66207300DD05B8 /* MessagesExtension.appex */;
+			productType = "com.apple.product-type.app-extension.messages";
+		};
 		DA651E5A1E5705E80031B95C /* KarmiesExample_PSMAdKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA651E6C1E5705E80031B95C /* Build configuration list for PBXNativeTarget "KarmiesExample_PSMAdKit" */;
@@ -283,10 +367,12 @@
 				DA70811B1DD3D7EC001811FF /* Resources */,
 				19BD787E9D7FF4D5E95617EA /* [CP] Embed Pods Frameworks */,
 				11C3BF18C5DC68F7538A4F3F /* [CP] Copy Pods Resources */,
+				DA5DC6BA1E66207300DD05B8 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DA5DC6B51E66207300DD05B8 /* PBXTargetDependency */,
 			);
 			name = KarmiesExample;
 			productName = KarmiesExample;
@@ -303,6 +389,11 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Karmies;
 				TargetAttributes = {
+					DA5DC6A71E66207300DD05B8 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 7J79D89C8K;
+						ProvisioningStyle = Automatic;
+					};
 					DA651E5A1E5705E80031B95C = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 7J79D89C8K;
@@ -330,12 +421,22 @@
 			projectRoot = "";
 			targets = (
 				DA70811C1DD3D7EC001811FF /* KarmiesExample */,
+				DA5DC6A71E66207300DD05B8 /* MessagesExtension */,
 				DA651E5A1E5705E80031B95C /* KarmiesExample_PSMAdKit */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		DA5DC6A61E66207300DD05B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA5DC6B21E66207300DD05B8 /* Assets.xcassets in Resources */,
+				DA5DC6B01E66207300DD05B8 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA651E591E5705E80031B95C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -419,6 +520,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KarmiesExample_PSMAdKit/Pods-KarmiesExample_PSMAdKit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6A7C3EB86253C8C72856ACAA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		74EF03E5B7E63FCA912E6DE5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -449,9 +565,32 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		F48308C9A9D3B277FD258BE4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MessagesExtension/Pods-MessagesExtension-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DA5DC6A41E66207300DD05B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA5DC6AD1E66207300DD05B8 /* MessagesViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA651E571E5705E80031B95C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -474,7 +613,23 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		DA5DC6B51E66207300DD05B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA5DC6A71E66207300DD05B8 /* MessagesExtension */;
+			targetProxy = DA5DC6B41E66207300DD05B8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		DA5DC6AE1E66207300DD05B8 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA5DC6AF1E66207300DD05B8 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		DA7081241DD3D7EC001811FF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -494,6 +649,39 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		DA5DC6B71E66207300DD05B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 12484F72BBE279D4EA0108C8 /* Pods-MessagesExtension.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				DEVELOPMENT_TEAM = 7J79D89C8K;
+				INFOPLIST_FILE = MessagesExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.karmies.KarmiesExample.MessagesExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		DA5DC6B81E66207300DD05B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2494125E81DB32C7B9426F79 /* Pods-MessagesExtension.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				DEVELOPMENT_TEAM = 7J79D89C8K;
+				INFOPLIST_FILE = MessagesExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.karmies.KarmiesExample.MessagesExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		DA651E6A1E5705E80031B95C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 27CF83AFA812C185291D169F /* Pods-KarmiesExample_PSMAdKit.debug.xcconfig */;
@@ -622,6 +810,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3935F9C3950E716E6A3CA11 /* Pods-KarmiesExample.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 7J79D89C8K;
@@ -643,6 +832,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5A59E9866CF6BF88581BD820 /* Pods-KarmiesExample.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 7J79D89C8K;
@@ -662,6 +852,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DA5DC6B91E66207300DD05B8 /* Build configuration list for PBXNativeTarget "MessagesExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA5DC6B71E66207300DD05B8 /* Debug */,
+				DA5DC6B81E66207300DD05B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DA651E6C1E5705E80031B95C /* Build configuration list for PBXNativeTarget "KarmiesExample_PSMAdKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

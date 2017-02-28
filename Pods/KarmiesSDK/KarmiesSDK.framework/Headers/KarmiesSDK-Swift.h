@@ -115,23 +115,61 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # define SWIFT_UNAVAILABLE __attribute__((unavailable))
 #endif
 #if defined(__has_feature) && __has_feature(modules)
+@import FastImageCache;
 @import ObjectiveC;
+@import CoreGraphics;
 @import Foundation;
 @import CoreLocation;
 @import UIKit;
-@import CoreGraphics;
+@import CoreFoundation;
+@import Messages;
 @import CoreText;
 @import WebKit;
 #endif
 
+#import <KarmiesSDK/KarmiesSDK.h>
+
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
+@class UIImage;
+
+SWIFT_CLASS("_TtC10KarmiesSDK11ImageEntity")
+@interface ImageEntity : NSObject
+- (FICEntityImageDrawingBlock _Nonnull)drawingBlockForImage:(UIImage * _Nonnull)image withFormatName:(NSString * _Nonnull)formatName;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class KarmiesCategory;
+
+SWIFT_CLASS("_TtC10KarmiesSDK14CategoryEntity")
+@interface CategoryEntity : ImageEntity <FICEntity>
+- (nonnull instancetype)initWithCategory:(KarmiesCategory * _Nonnull)category OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, readonly, copy) NSString * _Nonnull UUID;
+@property (nonatomic, readonly, copy) NSString * _Nonnull sourceImageUUID;
+- (NSURL * _Nonnull)sourceImageURLWithFormatName:(NSString * _Nonnull)formatName;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+@class KarmiesEmoji;
+
+SWIFT_CLASS("_TtC10KarmiesSDK11EmojiEntity")
+@interface EmojiEntity : ImageEntity <FICEntity>
+- (nonnull instancetype)initWithEmoji:(KarmiesEmoji * _Nonnull)emoji OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, readonly, copy) NSString * _Nonnull UUID;
+@property (nonatomic, readonly, copy) NSString * _Nonnull sourceImageUUID;
+- (NSURL * _Nonnull)sourceImageURLWithFormatName:(NSString * _Nonnull)formatName;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+
 @class KarmiesData;
 @class KarmiesImages;
 @class KarmiesRenderer;
 @class KarmiesMessages;
 @class KarmiesAnalytics;
+@class UIApplication;
 @class CLLocation;
+@class KarmiesController;
 @class UIViewController;
 
 /**
@@ -164,6 +202,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Karmies * _N
   Karmies analytics.
 */
 @property (nonatomic, readonly, strong) KarmiesAnalytics * _Nonnull analytics;
+@property (nonatomic, readonly, strong) UIApplication * _Nullable application;
 /**
   Flag that Karmies data is ready for use.
 */
@@ -201,6 +240,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Karmies * _N
 @property (nonatomic) BOOL allowDebugController;
 /**
   Configure Karmies for use in an application and load initial data from the cloud if necessary. This should be called as early as possible after application launch to ensure correct behavior.
+  \param application The running UIApplication instance if deployed in a full app, or nil if an app extension.
+
   \param clientID The Karmies client ID for this application.
 
   \param monitorLocation Flag to automatically request location access to enhance Karmies features (containing app must have Location capability configured).
@@ -212,7 +253,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Karmies * _N
   \param complete Called when all prefetching and caching of images or other data is complete, after which any background operations that expect fully populated data should begin.
 
 */
-- (void)configureWithClientID:(NSString * _Nonnull)clientID monitorLocation:(BOOL)monitorLocation loadOnReachable:(BOOL)loadOnReachable ready:(void (^ _Nullable)(void))ready complete:(void (^ _Nullable)(void))complete;
+- (void)configureWithApplication:(UIApplication * _Nullable)application clientID:(NSString * _Nonnull)clientID monitorLocation:(BOOL)monitorLocation loadOnReachable:(BOOL)loadOnReachable ready:(void (^ _Nullable)(void))ready complete:(void (^ _Nullable)(void))complete;
 /**
   Request update of Karmies data, such as after application has been resumed, a specified time period has elapsed, or the user has initiated a refresh.
   \param reload Flag to reload from the network even if data is already cached.
@@ -227,6 +268,14 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Karmies * _N
   Remove all current update handlers.
 */
 - (void)removeAllUpdateHandlers;
+- (void)registerWithController:(KarmiesController * _Nonnull)controller;
+- (void)unregisterWithController:(KarmiesController * _Nonnull)controller;
+- (void)notifyControllersEmojiWasMarkedAsReadWithEmoji:(KarmiesEmoji * _Nonnull)emoji;
+- (void)notifyControllersMessageWasChangedWithForced:(BOOL)forced;
+- (void)notifyControllersDataReady;
+- (void)notifyControllersDataUpdated;
+- (void)notifyControllersSaveInput;
+- (void)notifyControllersRestoreInput;
 /**
   Insert an emoji in the current keyboard input view.
   \param name The emoji name.
@@ -249,12 +298,15 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Karmies * _N
 
 */
 - (void)showEmojiWithNamed:(NSString * _Nullable)name in:(NSString * _Nullable)categoryName;
+- (UIViewController * _Nullable)presentEditFeatureControllerFor:(KarmiesEmoji * _Nonnull)emoji completionHandler:(void (^ _Nonnull)(NSString * _Nullable))completionHandler;
 /**
   Present view feature view for the emoji with specified URL.
   \param url The url for the emoji.
 
 */
 - (UIViewController * _Nullable)presentViewFeatureControllerWith:(NSURL * _Nonnull)url;
+- (UIViewController * _Nullable)presentFeatureController:(UIViewController * _Nonnull)viewController;
+- (void)dismissFeatureController;
 /**
   Force Karmies to start monitoring location. This does not normally need to be called unless it was stopped externally and needs to be resumed.
 */
@@ -282,10 +334,36 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Karmies * _N
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class NSCoder;
+@class NSTimer;
+
+SWIFT_CLASS("_TtC10KarmiesSDK27KarmiesActionCircleMenuView")
+@interface KarmiesActionCircleMenuView : CKCircleMenuView
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (void)finishGestureWithTimer:(NSTimer * _Nonnull)timer;
+- (void)closeMenuWithForceClose:(BOOL)forceClose;
+- (void)closeMenu;
+- (void)quickTap;
+- (null_unspecified instancetype)initAtOrigin:(CGPoint)aPoint usingOptions:(NSDictionary * _Null_unspecified)anOptionsDictionary withImageArray:(NSArray * _Null_unspecified)anImageArray SWIFT_UNAVAILABLE;
+@end
+
+
+@interface KarmiesActionCircleMenuView (SWIFT_EXTENSION(KarmiesSDK)) <CKCircleMenuDelegate>
+- (void)circleMenuOpened;
+- (void)circleMenuActivatedButtonWithIndex:(int32_t)anIndex;
+- (void)circleMenuClosed;
+- (void)finishOpened;
+@end
+
 
 SWIFT_CLASS("_TtC10KarmiesSDK16KarmiesAnalytics")
 @interface KarmiesAnalytics : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesAnalytics * _Nonnull shared;)
++ (KarmiesAnalytics * _Nonnull)shared;
+@property (nonatomic, readonly, copy) NSString * _Nullable agentID;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (void)configureWithClientID:(NSString * _Nonnull)clientID;
 - (void)sendKeyboardCloseEvent;
 - (void)sendKeyboardOpenEvent;
 - (void)sendKeyboardEmojisImpressionEventWithEmojiName:(NSString * _Nonnull)emojiName emojiIndex:(NSInteger)emojiIndex categoryName:(NSString * _Nonnull)categoryName categoryIndex:(NSInteger)categoryIndex;
@@ -306,9 +384,12 @@ SWIFT_CLASS("_TtC10KarmiesSDK16KarmiesAnalytics")
 - (void)sendReceivedMessageEmojisClickEventWithEmojiName:(NSString * _Nonnull)emojiName emojiPayload:(NSString * _Nullable)emojiPayload;
 - (void)sendReceivedMessageEmojisReturnEventWithEmojiName:(NSString * _Nonnull)emojiName emojiPayload:(NSString * _Nullable)emojiPayload;
 - (void)sendMessageImpressionEventsWithMessage:(NSString * _Nonnull)message isSent:(BOOL)isSent;
+/**
+  Immediately flush all events that have not automatically been sent at foreground, background, or periodic intervals.
+*/
+- (void)flushEvents;
 @end
 
-@class NSCoder;
 
 SWIFT_CLASS("_TtC10KarmiesSDK10KarmiesApp")
 @interface KarmiesApp : NSObject <NSCoding>
@@ -334,7 +415,28 @@ SWIFT_CLASS("_TtC10KarmiesSDK11KarmiesArea")
 @end
 
 @class KarmiesGeoplacement;
-@class UIImage;
+
+SWIFT_CLASS("_TtC10KarmiesSDK17KarmiesCategories")
+@interface KarmiesCategories : NSObject <NSCoding>
+@property (nonatomic, copy) NSArray<KarmiesCategory *> * _Null_unspecified entities;
+@property (nonatomic, copy) NSArray<KarmiesGeoplacement *> * _Null_unspecified geoplacements;
+- (nonnull instancetype)initWithCategories:(NSArray<KarmiesCategory *> * _Nonnull)categories geoplacements:(NSArray<KarmiesGeoplacement *> * _Nonnull)geoplacements OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)aCoder;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+@class UICollectionViewLayout;
+
+SWIFT_CLASS("_TtC10KarmiesSDK31KarmiesCategoriesCollectionView")
+@interface KarmiesCategoriesCollectionView : UICollectionView
+- (void)reloadData;
+- (void)layoutSubviews;
+- (void)fixLayout;
+- (nonnull instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout * _Nonnull)layout OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
 
 SWIFT_CLASS("_TtC10KarmiesSDK15KarmiesCategory")
 @interface KarmiesCategory : NSObject <NSCoding>
@@ -343,6 +445,7 @@ SWIFT_CLASS("_TtC10KarmiesSDK15KarmiesCategory")
 @property (nonatomic, copy) NSString * _Null_unspecified desc;
 @property (nonatomic, copy) NSArray<NSString *> * _Null_unspecified emojis;
 @property (nonatomic, copy) NSArray<KarmiesGeoplacement *> * _Null_unspecified geoplacements;
+@property (nonatomic) BOOL hidden;
 @property (nonatomic, strong) UIImage * _Nullable localImage;
 @property (nonatomic, readonly, copy) NSURL * _Nonnull imageURL;
 /**
@@ -375,14 +478,64 @@ SWIFT_CLASS("_TtC10KarmiesSDK15KarmiesCategory")
 - (void)encodeWithCoder:(NSCoder * _Nonnull)aCoder;
 @end
 
-@class UIButton;
+@class NSError;
+
+SWIFT_CLASS("_TtC10KarmiesSDK13KarmiesClient")
+@interface KarmiesClient : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesClient * _Nonnull shared;)
++ (KarmiesClient * _Nonnull)shared;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull linkURL;)
++ (NSString * _Nonnull)linkURL;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull contentURL;)
++ (NSString * _Nonnull)contentURL;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nonnull categoriesFormat;)
++ (NSString * _Nonnull)categoriesFormat;
++ (void)setCategoriesFormat:(NSString * _Nonnull)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull searchIndexFormat;)
++ (NSString * _Nonnull)searchIndexFormat;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nonnull linkFormat;)
++ (NSString * _Nonnull)linkFormat;
++ (void)setLinkFormat:(NSString * _Nonnull)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nonnull infoFormat;)
++ (NSString * _Nonnull)infoFormat;
++ (void)setInfoFormat:(NSString * _Nonnull)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull imageFormat;)
++ (NSString * _Nonnull)imageFormat;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull largeImageFormat;)
++ (NSString * _Nonnull)largeImageFormat;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger maxImageDownloads;)
++ (NSInteger)maxImageDownloads;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (void)getCategoriesWithReload:(BOOL)reload completion:(void (^ _Nonnull)(NSArray<KarmiesCategory *> * _Nullable, NSArray<KarmiesGeoplacement *> * _Nullable, NSError * _Nullable))completion;
+- (void)getSearchIndexWithReload:(BOOL)reload completion:(void (^ _Nonnull)(NSDictionary<NSString *, KarmiesEmoji *> * _Nullable, NSError * _Nullable))completion;
+- (void)getImageWithUrl:(NSURL * _Nonnull)url reload:(BOOL)reload completion:(void (^ _Nullable)(UIImage * _Nullable))completion;
+- (NSURL * _Nullable)categoriesURL;
+- (NSURL * _Nullable)searchIndexURL;
+- (NSURL * _Nullable)infoURLWithName:(NSString * _Nonnull)name;
+- (NSURL * _Nullable)ensurePublisherForURL:(NSURL * _Nullable)url;
+@end
+
 @class UITextView;
+@class InputTextViewDelegate;
+@class InputTextViewGestureRecognizerDelegate;
+@class MessageTextViewDelegate;
+@class KarmiesKeyboardView;
+@class UIButton;
 @class UILabel;
 @class UIView;
+@class UITapGestureRecognizer;
+@class NSNotification;
 @class NSBundle;
 
 SWIFT_CLASS("_TtC10KarmiesSDK17KarmiesController")
 @interface KarmiesController : UIViewController
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull suggestionReuseIdentifier;)
++ (NSString * _Nonnull)suggestionReuseIdentifier;
+@property (nonatomic, readonly, strong) UITextView * _Nonnull inputTextView;
+@property (nonatomic, strong) InputTextViewDelegate * _Null_unspecified inputTextViewDelegate;
+@property (nonatomic, strong) InputTextViewGestureRecognizerDelegate * _Null_unspecified inputTextViewGestureRecognizerDelegate;
+@property (nonatomic, strong) MessageTextViewDelegate * _Null_unspecified messageTextViewDelegate;
+@property (nonatomic, readonly, strong) KarmiesKeyboardView * _Nonnull keyboardView;
 @property (nonatomic, readonly, strong) UIButton * _Nonnull keyboardToggleButton;
 @property (nonatomic, copy) void (^ _Nullable messageWasChangedHandler)(BOOL);
 @property (nonatomic, copy) void (^ _Nullable inputWasChangedHandler)(NSString * _Nonnull, NSString * _Nullable);
@@ -402,7 +555,11 @@ SWIFT_CLASS("_TtC10KarmiesSDK17KarmiesController")
 */
 - (nonnull instancetype)initWithHostInputTextView:(UITextView * _Nonnull)hostInputTextView toggleEmbeddedKeyboard:(BOOL)toggleEmbeddedKeyboard autoSuggest:(BOOL)autoSuggest OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)dataReady;
 - (void)dataUpdated;
+- (void)reachabilityWasChanged:(BOOL)isReachable;
+- (void)saveInput;
+- (void)restoreInput;
 /**
   Registers UITextView object as message view to deserialize message from text property every time it’s changed.
   \param textView The text view.
@@ -421,13 +578,28 @@ SWIFT_CLASS("_TtC10KarmiesSDK17KarmiesController")
 
 */
 - (void)unregisterWithMessageView:(UIView * _Nonnull)messageView;
+- (void)insertEmojiWithNamed:(NSString * _Nonnull)name in:(NSString * _Nullable)categoryName index:(NSInteger)index input:(NSString * _Nullable)input keyword:(NSString * _Nullable)keyword feature:(NSString * _Nullable)feature;
+- (void)showEmojiWithNamed:(NSString * _Nullable)name in:(NSString * _Nullable)categoryName;
+- (void)inputTextViewTappedWithSender:(UITapGestureRecognizer * _Nonnull)sender;
+- (void)autoSuggestIfNecessary;
+- (void)keyboardDidShow:(NSNotification * _Nonnull)notification;
+- (void)keyboardDidHide:(NSNotification * _Nonnull)notification;
+- (void)keyboardToggleButtonTappedWithSender:(NSObject * _Nonnull)sender;
+- (void)backspaceButtonTappedWithButton:(UIButton * _Nonnull)button;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
 
-@class KarmiesEmoji;
 
 SWIFT_CLASS("_TtC10KarmiesSDK11KarmiesData")
 @interface KarmiesData : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesData * _Nonnull shared;)
++ (KarmiesData * _Nonnull)shared;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull emojisKey;)
++ (NSString * _Nonnull)emojisKey;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull categoriesKey;)
++ (NSString * _Nonnull)categoriesKey;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull readEmojiPayloadsKey;)
++ (NSString * _Nonnull)readEmojiPayloadsKey;
 /**
   <ul>
     <li>
@@ -440,15 +612,18 @@ SWIFT_CLASS("_TtC10KarmiesSDK11KarmiesData")
 */
 @property (nonatomic, readonly, copy) NSArray<KarmiesCategory *> * _Nonnull possibleCategories;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (void)loadWithReload:(BOOL)reload ready:(void (^ _Nonnull)(void))ready complete:(void (^ _Nonnull)(void))complete;
 /**
   Returns keyboard categories for the specified location.
-  \param location The location, or nil to use the last tracked location if available.
+  \param location the location, or nil to use the last tracked location if available
+
+  \param hidden flag to include hidden categories
 
 
   returns:
-  The categories.
+  the categories
 */
-- (NSArray<KarmiesCategory *> * _Nonnull)categoriesAt:(CLLocation * _Nullable)location;
+- (NSArray<KarmiesCategory *> * _Nonnull)categoriesAt:(CLLocation * _Nullable)location hidden:(BOOL)hidden;
 /**
   Returns an emoji from a URL token.
   \param token The URL token containing Karmies data.
@@ -491,16 +666,46 @@ SWIFT_CLASS("_TtC10KarmiesSDK11KarmiesData")
 - (KarmiesEmoji * _Nullable)emojiFor:(NSIndexPath * _Nonnull)indexPath at:(CLLocation * _Nullable)location;
 /**
   Returns suggested emojis for input text.
-  \param text The input text.
+  \param text the input text
 
-  \param includePartialMatches Flag to return partial matches along with exact matches.
+  \param includePartialMatches flag to return partial matches along with exact matches
 
-  \param location The location, or nil to use the last tracked location if available.
+  \param includeHiddenCategories flag to return content from hidden categories as well as visible
 
-  \param completion Called when complete with results and flag indicating partial matches are present.
+  \param location the location, or nil to use the last tracked location if available
+
+  \param completion called when complete with results and flag indicating partial matches are present
 
 */
-- (void)suggestedEmojisFor:(NSString * _Nonnull)text includePartialMatches:(BOOL)includePartialMatches at:(CLLocation * _Nullable)location :(void (^ _Nonnull)(NSArray<KarmiesEmoji *> * _Nonnull, NSArray<NSString *> * _Nonnull, BOOL))completion;
+- (void)suggestedEmojisFor:(NSString * _Nonnull)text includePartialMatches:(BOOL)includePartialMatches includeHiddenCategories:(BOOL)includeHiddenCategories at:(CLLocation * _Nullable)location :(void (^ _Nonnull)(NSArray<KarmiesEmoji *> * _Nonnull, NSArray<NSString *> * _Nonnull, BOOL))completion;
+- (BOOL)checkIfReadWithEmoji:(KarmiesEmoji * _Nonnull)emoji;
+- (void)markAsReadWithEmoji:(KarmiesEmoji * _Nonnull)emoji;
+@end
+
+@class UITextField;
+@class UISlider;
+@class UISwitch;
+
+SWIFT_CLASS("_TtC10KarmiesSDK26KarmiesDebugViewController")
+@interface KarmiesDebugViewController : UITableViewController
+@property (nonatomic, weak) IBOutlet UITextField * _Null_unspecified keyboardTextField;
+@property (nonatomic, weak) IBOutlet UITextField * _Null_unspecified psmTextField;
+@property (nonatomic, weak) IBOutlet UISlider * _Null_unspecified locationSlider;
+@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified locationLabel;
+@property (nonatomic, weak) IBOutlet UISwitch * _Null_unspecified keyboardSwitch;
+@property (nonatomic, weak) IBOutlet UISwitch * _Null_unspecified categoriesSwitch;
+@property (nonatomic, weak) IBOutlet UISwitch * _Null_unspecified actionPickerSwitch;
+@property (nonatomic, weak) IBOutlet UISwitch * _Null_unspecified actionAutomaticSwitch;
+@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified appVersionLabel;
+@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified karmiesVersionLabel;
+- (void)viewDidLoad;
+- (IBAction)cancelAction:(id _Nonnull)sender;
+- (IBAction)saveAction:(id _Nonnull)sender;
+- (IBAction)locationAction:(id _Nonnull)sender;
+- (IBAction)actionAction:(id _Nonnull)sender;
+- (nonnull instancetype)initWithStyle:(UITableViewStyle)style OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -523,6 +728,8 @@ SWIFT_CLASS("_TtC10KarmiesSDK12KarmiesEmoji")
 @property (nonatomic, copy) NSString * _Nullable payload;
 @property (nonatomic) BOOL remote;
 @property (nonatomic, readonly) BOOL isRead;
+@property (nonatomic, readonly, copy) NSString * _Nonnull adBannerId;
+@property (nonatomic, readonly, copy) NSString * _Nonnull adInterstitialId;
 @property (nonatomic, readonly, copy) NSString * _Nonnull title;
 @property (nonatomic, readonly, copy) NSURL * _Nonnull imageURL;
 @property (nonatomic, readonly, copy) NSURL * _Nonnull largeImageURL;
@@ -530,6 +737,7 @@ SWIFT_CLASS("_TtC10KarmiesSDK12KarmiesEmoji")
 @property (nonatomic, readonly, copy) NSURL * _Nonnull infoURL;
 - (nonnull instancetype)initWithName:(NSString * _Nonnull)name desc:(NSString * _Nonnull)desc keywords:(NSArray<NSString *> * _Nonnull)keywords image:(NSString * _Nullable)image largeImage:(NSString * _Nullable)largeImage localImage:(UIImage * _Nullable)localImage localLargeImage:(UIImage * _Nullable)localLargeImage localAction:(NSString * _Nullable)localAction apps:(NSArray<KarmiesApp *> * _Nullable)apps payload:(NSString * _Nullable)payload remote:(BOOL)remote;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (void)markAsRead;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)aCoder;
@@ -557,9 +765,22 @@ SWIFT_CLASS("_TtC10KarmiesSDK19KarmiesGeoplacement")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 @end
 
+@class FICImageCache;
+
+SWIFT_CLASS("_TtC10KarmiesSDK25KarmiesImageCacheDelegate")
+@interface KarmiesImageCacheDelegate : NSObject <FICImageCacheDelegate>
+- (void)imageCache:(FICImageCache * _Null_unspecified)imageCache wantsSourceImageForEntity:(id <FICEntity> _Null_unspecified)entity withFormatName:(NSString * _Null_unspecified)formatName completionBlock:(FICImageRequestCompletionBlock _Null_unspecified)completionBlock;
+- (void)imageCache:(FICImageCache * _Null_unspecified)imageCache cancelImageLoadingForEntity:(id <FICEntity> _Null_unspecified)entity withFormatName:(NSString * _Null_unspecified)formatName;
+- (BOOL)imageCache:(FICImageCache * _Null_unspecified)imageCache shouldProcessAllFormatsInFamily:(NSString * _Null_unspecified)formatFamily forEntity:(id <FICEntity> _Null_unspecified)entity;
+- (void)imageCache:(FICImageCache * _Null_unspecified)imageCache errorDidOccurWithMessage:(NSString * _Null_unspecified)errorMessage;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 
 SWIFT_CLASS("_TtC10KarmiesSDK13KarmiesImages")
 @interface KarmiesImages : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesImages * _Nonnull shared;)
++ (KarmiesImages * _Nonnull)shared;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 /**
   Returns an image for a category.
@@ -576,12 +797,126 @@ SWIFT_CLASS("_TtC10KarmiesSDK13KarmiesImages")
 - (BOOL)imageFor:(KarmiesCategory * _Nonnull)category async:(BOOL)async completion:(void (^ _Nullable)(UIImage * _Nullable))completion;
 @end
 
+@class UICollectionViewFlowLayout;
+@class UICollectionViewCell;
+
+SWIFT_CLASS("_TtC10KarmiesSDK47KarmiesKeyboardCategoryCollectionViewController")
+@interface KarmiesKeyboardCategoryCollectionViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull reuseIdentifier;)
++ (NSString * _Nonnull)reuseIdentifier;
+@property (nonatomic) NSInteger selectedCategoryIndex;
+@property (nonatomic, copy) void (^ _Nullable categoryWasChangedHandler)(NSInteger);
+@property (nonatomic, readonly, strong) UICollectionViewFlowLayout * _Nonnull layout;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)setupCollectionView;
+- (void)dataReadyWithCategories:(NSArray<KarmiesCategory *> * _Nonnull)categories;
+- (void)dataUpdatedWithCategories:(NSArray<KarmiesCategory *> * _Nonnull)categories;
+- (NSInteger)collectionView:(UICollectionView * _Nonnull)collectionView numberOfItemsInSection:(NSInteger)section;
+- (UICollectionViewCell * _Nonnull)collectionView:(UICollectionView * _Nonnull)collectionView cellForItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+- (void)collectionView:(UICollectionView * _Nonnull)collectionView didSelectItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+- (CGSize)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+- (CGFloat)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section;
+- (CGFloat)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section;
+- (nonnull instancetype)initWithCollectionViewLayout:(UICollectionViewLayout * _Nonnull)layout SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC10KarmiesSDK50KarmiesKeyboardCategoryContainerPageViewController")
+@interface KarmiesKeyboardCategoryContainerPageViewController : UIPageViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
+@property (nonatomic, copy) void (^ _Nullable categoryWasChangedHandler)(NSInteger);
+@property (nonatomic, copy) void (^ _Nullable emojiWasDisplayedHandler)(NSString * _Nonnull, NSString * _Nonnull, NSInteger);
+@property (nonatomic, copy) void (^ _Nullable emojiWasTappedHandler)(NSString * _Nonnull, NSString * _Nonnull, NSInteger, NSInteger, NSString * _Nullable);
+@property (nonatomic, strong) UIView * _Nullable keyboardView;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)viewDidLoad;
+- (void)dataReadyWithCategories:(NSArray<KarmiesCategory *> * _Nonnull)categories;
+- (void)dataUpdatedWithCategories:(NSArray<KarmiesCategory *> * _Nonnull)categories;
+- (void)setCategoryWith:(NSInteger)index reload:(BOOL)reload;
+- (UIViewController * _Nullable)viewControllerFor:(NSInteger)index;
+- (UIViewController * _Nullable)pageViewController:(UIPageViewController * _Nonnull)pageViewController viewControllerBeforeViewController:(UIViewController * _Nonnull)viewController;
+- (UIViewController * _Nullable)pageViewController:(UIPageViewController * _Nonnull)pageViewController viewControllerAfterViewController:(UIViewController * _Nonnull)viewController;
+- (void)pageViewController:(UIPageViewController * _Nonnull)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> * _Nonnull)previousViewControllers transitionCompleted:(BOOL)completed;
+- (nonnull instancetype)initWithTransitionStyle:(UIPageViewControllerTransitionStyle)style navigationOrientation:(UIPageViewControllerNavigationOrientation)navigationOrientation options:(NSDictionary<NSString *, id> * _Nullable)options SWIFT_UNAVAILABLE;
+@end
+
+@class UIImageView;
+
+SWIFT_CLASS("_TtC10KarmiesSDK33KarmiesKeyboardCollectionViewCell")
+@interface KarmiesKeyboardCollectionViewCell : UICollectionViewCell
+@property (nonatomic, strong) UIImageView * _Null_unspecified imageView;
+@property (nonatomic, strong) UIView * _Null_unspecified indicatorView;
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UIScrollView;
+
+SWIFT_CLASS("_TtC10KarmiesSDK44KarmiesKeyboardEmojiCollectionViewController")
+@interface KarmiesKeyboardEmojiCollectionViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
+@property (nonatomic, readonly, strong) KarmiesCategory * _Nullable category;
+@property (nonatomic) NSInteger index;
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nonnull emojis;
+@property (nonatomic, copy) void (^ _Nullable emojiWasDisplayedHandler)(NSString * _Nonnull, NSString * _Nonnull, NSInteger);
+@property (nonatomic, copy) void (^ _Nullable emojiWasTappedHandler)(NSString * _Nonnull, NSString * _Nonnull, NSInteger, NSInteger, NSString * _Nullable);
+@property (nonatomic, strong) UIView * _Nullable keyboardView;
+- (nonnull instancetype)initWithCategory:(KarmiesCategory * _Nonnull)category index:(NSInteger)index OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)update;
+- (void)openDebug;
+- (void)refresh;
+- (void)finishRefresh;
+- (void)prepareToTransition;
+- (void)closeMenus;
+- (NSInteger)collectionView:(UICollectionView * _Nonnull)collectionView numberOfItemsInSection:(NSInteger)section;
+- (UICollectionViewCell * _Nonnull)collectionView:(UICollectionView * _Nonnull)collectionView cellForItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+- (void)collectionView:(UICollectionView * _Nonnull)collectionView willDisplayCell:(UICollectionViewCell * _Nonnull)cell forItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+- (void)collectionView:(UICollectionView * _Nonnull)collectionView didSelectItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+- (CGSize)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+- (CGFloat)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section;
+- (CGFloat)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section;
+- (void)scrollViewDidScroll:(UIScrollView * _Nonnull)scrollView;
+- (nonnull instancetype)initWithCollectionViewLayout:(UICollectionViewLayout * _Nonnull)layout SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC10KarmiesSDK27KarmiesKeyboardToggleButton")
+@interface KarmiesKeyboardToggleButton : UIButton
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC10KarmiesSDK19KarmiesKeyboardView")
+@interface KarmiesKeyboardView : UIView
+@property (nonatomic, readonly, strong) KarmiesKeyboardCategoryCollectionViewController * _Nonnull categoryCollectionViewController;
+@property (nonatomic, readonly, strong) KarmiesKeyboardCategoryContainerPageViewController * _Nonnull categoryContainerPageViewController;
+@property (nonatomic, readonly, strong) UIButton * _Nonnull backspaceButton;
+@property (nonatomic, readonly, strong) UIView * _Nonnull separatorView;
+@property (nonatomic) BOOL reachabilityViewIsHidden;
+@property (nonatomic, copy) void (^ _Nullable emojiWasTappedHandler)(NSString * _Nonnull, NSString * _Nonnull, NSInteger, NSInteger, NSString * _Nullable);
+@property (nonatomic, readonly) CGFloat categoryHeight;
+@property (nonatomic, readonly) CGFloat separatorHeight;
+@property (nonatomic) CGFloat backspaceWidth;
+- (nonnull instancetype)initWithHeight:(CGFloat)height OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)dataReadyWithCategories:(NSArray<KarmiesCategory *> * _Nonnull)categories;
+- (void)dataUpdatedWithCategories:(NSArray<KarmiesCategory *> * _Nonnull)categories;
+- (void)setupSubviews;
+- (void)setupConstraints;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+@end
+
 
 /**
   View controller that wraps the Karmies keyboard view for full screen use, such as in a Messages app extension.
 */
 SWIFT_CLASS("_TtC10KarmiesSDK29KarmiesKeyboardViewController")
 @interface KarmiesKeyboardViewController : UIViewController
+@property (nonatomic, strong) IBOutlet KarmiesKeyboardView * _Null_unspecified keyboardView;
 - (void)viewDidLoad;
 - (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
 - (void)dataUpdated;
@@ -620,11 +955,35 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 @end
 
+@class CLLocationManager;
+
+SWIFT_CLASS("_TtC10KarmiesSDK22KarmiesLocationManager")
+@interface KarmiesLocationManager : NSObject <CLLocationManagerDelegate>
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesLocationManager * _Nonnull shared;)
++ (KarmiesLocationManager * _Nonnull)shared;
+@property (nonatomic, readonly, strong) CLLocationManager * _Nonnull locationManager;
+@property (nonatomic, readonly, strong) CLLocation * _Nullable currentLocation;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (void)begin;
+- (void)updateLocationWith:(void (^ _Nullable)(CLLocation * _Nullable))completionHandler;
+- (void)locationManager:(CLLocationManager * _Nonnull)manager didUpdateLocations:(NSArray<CLLocation *> * _Nonnull)locations;
+- (void)locationManager:(CLLocationManager * _Nonnull)manager didFailWithError:(NSError * _Nonnull)error;
+@end
+
+
+SWIFT_CLASS("_TtC10KarmiesSDK13KarmiesLogger")
+@interface KarmiesLogger : NSObject
++ (void)logTimeForTaskWithTask:(NSString * _Nonnull)task startTime:(CFAbsoluteTime)startTime file:(NSString * _Nonnull)file function:(NSString * _Nonnull)function line:(NSInteger)line;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
 @class NSAttributedString;
 @class UIFont;
 
 SWIFT_CLASS("_TtC10KarmiesSDK15KarmiesMessages")
 @interface KarmiesMessages : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesMessages * _Nonnull shared;)
++ (KarmiesMessages * _Nonnull)shared;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 /**
   Returns serialized message for the attributed text.
@@ -713,9 +1072,99 @@ SWIFT_CLASS("_TtC10KarmiesSDK15KarmiesMessages")
 - (NSString * _Nullable)linkAt:(CGPoint)point in:(UITextView * _Nonnull)textView outgoing:(BOOL)outgoing;
 @end
 
+@class MSConversation;
+@class MSMessage;
+
+/**
+  Main app controller class for a Karmies powered Messages app. The message app should extend this to provide configuration and customization if desired.
+*/
+SWIFT_CLASS("_TtC10KarmiesSDK32KarmiesMessagesAppViewController")
+@interface KarmiesMessagesAppViewController : MSMessagesAppViewController
+/**
+  Determine the Karmies client ID to use.
+
+  returns:
+  The client ID.
+*/
+@property (nonatomic, readonly, copy) NSString * _Nonnull clientID;
+/**
+  Determine if location should be actively monitored for displaying geolocated stickers.
+
+  returns:
+  True to request and monitor location.
+*/
+@property (nonatomic, readonly) BOOL monitorLocation;
+/**
+  Determine the top offset to use for presenting full screen views, defaults to 85.0 for messages header height.
+
+  returns:
+  The offset.
+*/
+@property (nonatomic, readonly) CGFloat topOffset;
+/**
+  Determine the bottom offset to use for presenting full screen views, defaults to 40.0 for messages footer height.
+
+  returns:
+  The offset.
+*/
+@property (nonatomic, readonly) CGFloat bottomOffset;
+@property (nonatomic, readonly, copy) NSString * _Nullable selectedName;
+@property (nonatomic, readonly, copy) NSString * _Nullable selectedCategory;
+@property (nonatomic, readonly, copy) NSString * _Nullable selectedFeature;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL isLoaded;)
++ (BOOL)isLoaded;
+- (void)viewDidLoad;
+- (void)viewWillAppear:(BOOL)animated;
+- (void)viewDidAppear:(BOOL)animated;
+- (void)willBecomeActiveWithConversation:(MSConversation * _Nonnull)conversation;
+- (void)didResignActiveWithConversation:(MSConversation * _Nonnull)conversation;
+- (void)didReceiveMessage:(MSMessage * _Nonnull)message conversation:(MSConversation * _Nonnull)conversation;
+- (void)didStartSendingMessage:(MSMessage * _Nonnull)message conversation:(MSConversation * _Nonnull)conversation;
+- (void)didCancelSendingMessage:(MSMessage * _Nonnull)message conversation:(MSConversation * _Nonnull)conversation;
+- (void)willTransitionToPresentationStyle:(MSMessagesAppPresentationStyle)presentationStyle;
+- (void)didTransitionToPresentationStyle:(MSMessagesAppPresentationStyle)presentationStyle;
+- (void)willSelectMessage:(MSMessage * _Nonnull)message conversation:(MSConversation * _Nonnull)conversation;
+- (void)didSelectMessage:(MSMessage * _Nonnull)message conversation:(MSConversation * _Nonnull)conversation;
+/**
+  Update and display new content.
+  \param reload Flag to reload from the network even if data is already cached.
+
+  \param ready Called when initial data is received and ready, after which content is available for display in the UI.
+
+  \param complete Called when all prefetching and caching of images or other data is complete, after which any background operations that expect fully populated data should begin.
+
+*/
+- (void)updateWithReload:(BOOL)reload ready:(void (^ _Nullable)(void))ready complete:(void (^ _Nullable)(void))complete;
+/**
+  Present a child view controller. This will automatically present the appropriate sticker or feature view by default.
+  \param conversation The conversation.
+
+  \param presentationStyle The requested presentation style.
+
+
+  returns:
+  The new view controller.
+*/
+- (UIViewController * _Nullable)presentViewControllerFor:(MSConversation * _Nonnull)conversation with:(MSMessagesAppPresentationStyle)presentationStyle;
+/**
+  Show a child view controller in the current presentation style.
+  \param viewController The view controller.
+
+  \param presentationStyle The presentation style.
+
+*/
+- (void)show:(UIViewController * _Nonnull)viewController with:(MSMessagesAppPresentationStyle)presentationStyle;
+- (UIViewController * _Nullable)presentFeatureController:(UIViewController * _Nonnull)viewController;
+- (void)dismissFeatureController;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
 
 SWIFT_CLASS("_TtC10KarmiesSDK33KarmiesModalFeatureViewController")
 @interface KarmiesModalFeatureViewController : UIViewController
+@property (nonatomic, weak) IBOutlet UIView * _Null_unspecified wrapperView;
+@property (nonatomic, strong) UIViewController * _Null_unspecified wrappedViewController;
 @property (nonatomic, readonly) BOOL prefersStatusBarHidden;
 - (void)viewDidLoad;
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^ _Nullable)(void))completion;
@@ -741,9 +1190,35 @@ SWIFT_CLASS("_TtC10KarmiesSDK14KarmiesPayload")
 @end
 
 
+SWIFT_CLASS("_TtC10KarmiesSDK19KarmiesReachability")
+@interface KarmiesReachability : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesReachability * _Nonnull shared;)
++ (KarmiesReachability * _Nonnull)shared;
+@property (nonatomic, readonly) BOOL isReachable;
+@property (nonatomic, readonly) BOOL isReachableOnWWAN;
+@property (nonatomic, readonly) BOOL isReachableOnEthernetOrWiFi;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+@class NSTextAttachment;
+
 SWIFT_CLASS("_TtC10KarmiesSDK15KarmiesRenderer")
 @interface KarmiesRenderer : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesRenderer * _Nonnull shared;)
++ (KarmiesRenderer * _Nonnull)shared;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (NSTextAttachment * _Nonnull)imageTextAttachmentWithStatusWithImage:(UIImage * _Nonnull)image lineHeight:(CGFloat)lineHeight;
+@end
+
+
+SWIFT_CLASS("_TtC10KarmiesSDK16KarmiesResources")
+@interface KarmiesResources : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesResources * _Nonnull shared;)
++ (KarmiesResources * _Nonnull)shared;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull identifier;)
++ (NSString * _Nonnull)identifier;
+@property (nonatomic, readonly, strong) NSBundle * _Nullable bundle;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -763,16 +1238,23 @@ SWIFT_CLASS("_TtC10KarmiesSDK12KarmiesUtils")
 @end
 
 @class WKWebView;
+@class NSLayoutConstraint;
 @class WKNavigation;
 
 SWIFT_CLASS("_TtC10KarmiesSDK24KarmiesWebViewController")
 @interface KarmiesWebViewController : UIViewController <WKNavigationDelegate>
+@property (nonatomic, strong) UIViewController * _Nullable previousRootViewController;
+@property (nonatomic, readonly, strong) WKWebView * _Null_unspecified webView;
+@property (nonatomic, readonly, strong) UIView * _Null_unspecified bottomPanelView;
+@property (nonatomic, readonly, strong) NSLayoutConstraint * _Null_unspecified bottomPanelViewHeightContraint;
 @property (nonatomic, readonly) BOOL prefersStatusBarHidden;
 - (nonnull instancetype)initWithUrl:(NSURL * _Nonnull)url topOffset:(CGFloat)topOffset bottomOffset:(CGFloat)bottomOffset OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 - (void)viewDidLoad;
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^ _Nullable)(void))completion;
 - (void)webView:(WKWebView * _Nonnull)webView didCommitNavigation:(WKNavigation * _Null_unspecified)navigation;
+- (void)publishShellTokenWithData:(NSDictionary<NSString *, id> * _Nonnull)data;
+- (void)close;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
 
@@ -786,7 +1268,13 @@ SWIFT_CLASS("_TtC10KarmiesSDK31KarmiesWebFeatureViewController")
 - (void)viewWillAppear:(BOOL)animated;
 - (void)viewDidAppear:(BOOL)animated;
 - (void)viewWillDisappear:(BOOL)animated;
+- (void)publishShellTokenWithData:(NSDictionary<NSString *, id> * _Nonnull)data;
 - (void)close;
+- (void)submitAction:(id _Nonnull)sender;
+- (void)setupBannerAd;
+- (void)setupInterstitialAd;
+- (void)openURL:(NSURL * _Nonnull)url;
+- (void)openWithUrl:(NSURL * _Nonnull)url;
 - (nonnull instancetype)initWithUrl:(NSURL * _Nonnull)url topOffset:(CGFloat)topOffset bottomOffset:(CGFloat)bottomOffset SWIFT_UNAVAILABLE;
 @end
 
@@ -799,6 +1287,7 @@ SWIFT_CLASS("_TtC10KarmiesSDK31KarmiesWebFeatureViewController")
 
 
 @interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
++ (UIImage * _Nullable)karmies_imageWithNamed:(NSString * _Nonnull)name;
 @end
 
 #pragma clang diagnostic pop

@@ -26,11 +26,12 @@ PODS:
     - FastImageCache (~> 1.5)
     - GBDeviceInfo (~> 4.2)
     - ObjectMapper (~> 2.1)
-  - ObjectMapper (2.2.3)
+  - ObjectMapper (2.2.4)
 
 DEPENDENCIES:
   - Alamofire (from `https://github.com/karmies/Alamofire`, branch `ios8`)
   - AlamofireImage (from `https://github.com/karmies/AlamofireImage`, branch `ios8`)
+  - AWSMobileAnalytics (from `https://github.com/karmies/aws-sdk-ios`, branch `app-extension`)
   - KarmiesSDK
   - KarmiesSDK-PSMAdKit
 
@@ -41,6 +42,9 @@ EXTERNAL SOURCES:
   AlamofireImage:
     :branch: ios8
     :git: https://github.com/karmies/AlamofireImage
+  AWSMobileAnalytics:
+    :branch: app-extension
+    :git: https://github.com/karmies/aws-sdk-ios
 
 CHECKOUT OPTIONS:
   Alamofire:
@@ -49,6 +53,9 @@ CHECKOUT OPTIONS:
   AlamofireImage:
     :commit: e7b06b4fdffe2e54aec36ceefc756bb9b19aef0f
     :git: https://github.com/karmies/AlamofireImage
+  AWSMobileAnalytics:
+    :commit: b6981a6b6d029f056cf55aaaa7c8eb1073ae5e53
+    :git: https://github.com/karmies/aws-sdk-ios
 
 SPEC CHECKSUMS:
   Alamofire: 0b7d0ce589b3ee4e8d9b1bf5baa604e6a555b54b
@@ -60,8 +67,8 @@ SPEC CHECKSUMS:
   GBDeviceInfo: 0a6e2fc04989ce248572bb988f1a764102eb0e5d
   KarmiesSDK: 1b17a7a4a01a05e0e8b671eb3f5df4d162a8873c
   KarmiesSDK-PSMAdKit: deb07a5ce5d2b21ea7cfb2dbe83cdf9b75220a1f
-  ObjectMapper: d3b3de11267f5d971f390eb8d63dd509116a4329
+  ObjectMapper: 81d0e5d7c57129e3e93f29a04bdf9669542b37d2
 
-PODFILE CHECKSUM: 03c122d33809e39f5c69847b2d0fafbf05418555
+PODFILE CHECKSUM: 963a63d0a31f3763e4382fb06efaed50b7a005e5
 
 COCOAPODS: 1.2.0
