@@ -1,11 +1,9 @@
-ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/AWSCore" "$PODS_CONFIGURATION_BUILD_DIR/AWSMobileAnalytics" "$PODS_CONFIGURATION_BUILD_DIR/Alamofire" "$PODS_CONFIGURATION_BUILD_DIR/AlamofireImage" "$PODS_CONFIGURATION_BUILD_DIR/AwesomeCache" "$PODS_CONFIGURATION_BUILD_DIR/FastImageCache" "$PODS_CONFIGURATION_BUILD_DIR/GBDeviceInfo" "$PODS_CONFIGURATION_BUILD_DIR/ObjectMapper" "${PODS_ROOT}/KarmiesSDK"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/KarmiesSDK"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/KarmiesSDK" "${PODS_ROOT}/Headers/Public/KarmiesSDK-PSMAdKit"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/KarmiesSDK"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/AWSCore/AWSCore.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/AWSMobileAnalytics/AWSMobileAnalytics.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/Alamofire/Alamofire.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/AlamofireImage/AlamofireImage.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/AwesomeCache/AwesomeCache.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/FastImageCache/FastImageCache.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/GBDeviceInfo/GBDeviceInfo.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/ObjectMapper/ObjectMapper.framework/Headers" -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/KarmiesSDK" -isystem "${PODS_ROOT}/Headers/Public/KarmiesSDK-PSMAdKit"
-OTHER_LDFLAGS = $(inherited) -l"sqlite3" -l"z" -framework "AWSCore" -framework "AWSMobileAnalytics" -framework "Alamofire" -framework "AlamofireImage" -framework "AwesomeCache" -framework "CoreData" -framework "FastImageCache" -framework "GBDeviceInfo" -framework "KarmiesSDK" -framework "ObjectMapper" -framework "UIKit" -framework "WebKit"
-OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
+OTHER_CFLAGS = $(inherited)  -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/KarmiesSDK"
+OTHER_LDFLAGS = $(inherited) -l"sqlite3" -l"z" -framework "CoreData" -framework "KarmiesSDK" -framework "UIKit" -framework "WebKit"
 PODS_BUILD_DIR = $BUILD_DIR
 PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}/Pods

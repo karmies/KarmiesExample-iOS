@@ -1,6 +1,0 @@
-framework module Pods_KarmiesExample_PSMAdKit {
-  umbrella header "Pods-KarmiesExample_PSMAdKit-umbrella.h"
-
-  export *
-  module * { export * }
-}

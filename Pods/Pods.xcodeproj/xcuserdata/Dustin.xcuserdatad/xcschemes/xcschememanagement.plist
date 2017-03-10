@@ -4,57 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>AWSCore.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>AWSMobileAnalytics.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Alamofire.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>AlamofireImage.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>AwesomeCache.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>FastImageCache.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>GBDeviceInfo.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>KarmiesSDK-PSMAdKit-PSMAdKitSDKBundle.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>ObjectMapper.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-KarmiesExample.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-KarmiesExample_PSMAdKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -67,62 +17,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>028DFD27F186DB6013DC9AD5D06DBF2C</key>
+		<key>1C70CA71B3F88AE266CD33CD3949D3FD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>046A230F5BC0600EED56B9210FDEE635</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>148C0C45F4CA688BF10D4E6473279D02</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>5ACFCBB5C36270A9DF9A2D2D11708867</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>73E20D8917BB5388CF2326338031E5AF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7D1889ACF80B9478B44F68667304E2BF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7F58622155320FA19303C0499D01D828</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8D4BACB7A3B807990B47E64C34F1EEB7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9EFE4C70245EE2857D336B8B9FA4E825</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CD6C9FB6B052E1CF663F8A56041EA163</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D4695AD57F0A030C0F3367E66717D06C</key>
+		<key>CFB4A2344549AA03C08ED50F78EB0A24</key>
 		<dict>
 			<key>primary</key>
 			<true/>

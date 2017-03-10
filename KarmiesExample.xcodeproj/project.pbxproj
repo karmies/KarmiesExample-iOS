@@ -8,49 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		8483726B8138F2089D7C8B5C /* Pods_KarmiesExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C387C07EDC39321E0DAD0E5E /* Pods_KarmiesExample.framework */; };
-		97ABBD2815193C1FD9F11EE9 /* Pods_KarmiesExample_PSMAdKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E56363BA38E5CB14022AF0 /* Pods_KarmiesExample_PSMAdKit.framework */; };
 		DA5DC6AA1E66207300DD05B8 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5DC6A91E66207300DD05B8 /* Messages.framework */; };
 		DA5DC6AD1E66207300DD05B8 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5DC6AC1E66207300DD05B8 /* MessagesViewController.swift */; };
 		DA5DC6B01E66207300DD05B8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA5DC6AE1E66207300DD05B8 /* MainInterface.storyboard */; };
 		DA5DC6B21E66207300DD05B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA5DC6B11E66207300DD05B8 /* Assets.xcassets */; };
 		DA5DC6B61E66207300DD05B8 /* MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DA5DC6A81E66207300DD05B8 /* MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		DA651E5E1E5705E80031B95C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA651E5D1E5705E80031B95C /* AppDelegate.swift */; };
-		DA651E6D1E57064F0031B95C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7081221DD3D7EC001811FF /* ViewController.swift */; };
-		DA651E6E1E5706510031B95C /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6B60E1DD6584100C8565A /* TableViewCell.swift */; };
-		DA651E6F1E5706570031B95C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7081241DD3D7EC001811FF /* Main.storyboard */; };
-		DA651E701E57065A0031B95C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7081291DD3D7EC001811FF /* LaunchScreen.storyboard */; };
-		DA651E711E57065E0031B95C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA7081271DD3D7EC001811FF /* Assets.xcassets */; };
-		DA651E721E5706D70031B95C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF308151E56E77D00C27192 /* WebKit.framework */; };
-		DA651E731E5706D70031B95C /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF308131E56E77800C27192 /* CoreMotion.framework */; };
-		DA651E741E5706D70031B95C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF308111E56E77200C27192 /* Security.framework */; };
-		DA651E751E5706D70031B95C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF3080F1E56E76800C27192 /* SystemConfiguration.framework */; };
-		DA651E761E5706D70031B95C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF3080D1E56E76200C27192 /* QuartzCore.framework */; };
-		DA651E771E5706D70031B95C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF3080B1E56E75D00C27192 /* MobileCoreServices.framework */; };
-		DA651E781E5706D70031B95C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF308091E56E75700C27192 /* MessageUI.framework */; };
-		DA651E791E5706D70031B95C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF308071E56E75200C27192 /* MediaPlayer.framework */; };
-		DA651E7A1E5706D70031B95C /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF308051E56E74C00C27192 /* iAd.framework */; };
-		DA651E7B1E5706D70031B95C /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF308031E56E74100C27192 /* GLKit.framework */; };
-		DA651E7C1E5706D70031B95C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF308011E56E73900C27192 /* Foundation.framework */; };
-		DA651E7D1E5706D70031B95C /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307FD1E56E73300C27192 /* EventKit.framework */; };
-		DA651E7E1E5706D70031B95C /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307FE1E56E73300C27192 /* EventKitUI.framework */; };
-		DA651E7F1E5706D70031B95C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307FB1E56E72B00C27192 /* CoreMedia.framework */; };
-		DA651E801E5706D70031B95C /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307F91E56E72600C27192 /* CoreTelephony.framework */; };
-		DA651E811E5706D70031B95C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307F71E56E71E00C27192 /* CoreGraphics.framework */; };
-		DA651E821E5706D70031B95C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307F51E56E71A00C27192 /* CoreLocation.framework */; };
-		DA651E831E5706D70031B95C /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307F31E56E71100C27192 /* CoreBluetooth.framework */; };
-		DA651E841E5706D70031B95C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307F11E56E70C00C27192 /* CFNetwork.framework */; };
-		DA651E851E5706D70031B95C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307EF1E56E70400C27192 /* AVFoundation.framework */; };
-		DA651E861E5706D70031B95C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307ED1E56E6FE00C27192 /* AudioToolbox.framework */; };
-		DA651E871E5706D70031B95C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307EB1E56E6F400C27192 /* AssetsLibrary.framework */; };
-		DA651E881E5706D70031B95C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307E91E56E6F000C27192 /* SafariServices.framework */; };
-		DA651E891E5706D70031B95C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307E71E56E6EB00C27192 /* StoreKit.framework */; };
-		DA651E8A1E5706D70031B95C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307E51E56E6E700C27192 /* Social.framework */; };
-		DA651E8B1E5706D70031B95C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307E31E56E6E300C27192 /* Accounts.framework */; };
-		DA651E8C1E5706D70031B95C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF307E11E56E6D600C27192 /* AdSupport.framework */; };
-		DA651E8D1E5706EA0031B95C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF308171E56E78800C27192 /* libsqlite3.tbd */; };
-		DA651E8E1E5706EE0031B95C /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF308191E56E78F00C27192 /* libc++.tbd */; };
-		DA651E8F1E5706F00031B95C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF3081B1E56E79500C27192 /* libz.tbd */; };
-		DA651E901E5706F30031B95C /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF3081D1E56E79900C27192 /* libxml2.tbd */; };
 		DA7081211DD3D7EC001811FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7081201DD3D7EC001811FF /* AppDelegate.swift */; };
 		DA7081231DD3D7EC001811FF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7081221DD3D7EC001811FF /* ViewController.swift */; };
 		DA7081261DD3D7EC001811FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7081241DD3D7EC001811FF /* Main.storyboard */; };
@@ -100,8 +62,6 @@
 		DA5DC6AF1E66207300DD05B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		DA5DC6B11E66207300DD05B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA5DC6B31E66207300DD05B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DA651E5B1E5705E80031B95C /* ExamplePSM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamplePSM.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA651E5D1E5705E80031B95C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA651EC01E57190C0031B95C /* PSMAdKitSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSMAdKitSDK.framework; path = "Pods/KarmiesSDK-PSMAdKit/PSMAdKitSDK.framework"; sourceTree = "<group>"; };
 		DA70811D1DD3D7EC001811FF /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA7081201DD3D7EC001811FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -151,45 +111,6 @@
 			files = (
 				DA5DC6AA1E66207300DD05B8 /* Messages.framework in Frameworks */,
 				FECA9029F8F642FD0207B441 /* Pods_MessagesExtension.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA651E581E5705E80031B95C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				97ABBD2815193C1FD9F11EE9 /* Pods_KarmiesExample_PSMAdKit.framework in Frameworks */,
-				DA651E7E1E5706D70031B95C /* EventKitUI.framework in Frameworks */,
-				DA651E8A1E5706D70031B95C /* Social.framework in Frameworks */,
-				DA651E8D1E5706EA0031B95C /* libsqlite3.tbd in Frameworks */,
-				DA651E8C1E5706D70031B95C /* AdSupport.framework in Frameworks */,
-				DA651E8B1E5706D70031B95C /* Accounts.framework in Frameworks */,
-				DA651E781E5706D70031B95C /* MessageUI.framework in Frameworks */,
-				DA651E761E5706D70031B95C /* QuartzCore.framework in Frameworks */,
-				DA651E891E5706D70031B95C /* StoreKit.framework in Frameworks */,
-				DA651E721E5706D70031B95C /* WebKit.framework in Frameworks */,
-				DA651E741E5706D70031B95C /* Security.framework in Frameworks */,
-				DA651E7D1E5706D70031B95C /* EventKit.framework in Frameworks */,
-				DA651E7F1E5706D70031B95C /* CoreMedia.framework in Frameworks */,
-				DA651E801E5706D70031B95C /* CoreTelephony.framework in Frameworks */,
-				DA651E771E5706D70031B95C /* MobileCoreServices.framework in Frameworks */,
-				DA651E901E5706F30031B95C /* libxml2.tbd in Frameworks */,
-				DA651E751E5706D70031B95C /* SystemConfiguration.framework in Frameworks */,
-				DA651E831E5706D70031B95C /* CoreBluetooth.framework in Frameworks */,
-				DA651E861E5706D70031B95C /* AudioToolbox.framework in Frameworks */,
-				DA651E7A1E5706D70031B95C /* iAd.framework in Frameworks */,
-				DA651E851E5706D70031B95C /* AVFoundation.framework in Frameworks */,
-				DA651E8F1E5706F00031B95C /* libz.tbd in Frameworks */,
-				DA651E841E5706D70031B95C /* CFNetwork.framework in Frameworks */,
-				DA651E8E1E5706EE0031B95C /* libc++.tbd in Frameworks */,
-				DA651E791E5706D70031B95C /* MediaPlayer.framework in Frameworks */,
-				DA651E821E5706D70031B95C /* CoreLocation.framework in Frameworks */,
-				DA651E811E5706D70031B95C /* CoreGraphics.framework in Frameworks */,
-				DA651E7B1E5706D70031B95C /* GLKit.framework in Frameworks */,
-				DA651E871E5706D70031B95C /* AssetsLibrary.framework in Frameworks */,
-				DA651E731E5706D70031B95C /* CoreMotion.framework in Frameworks */,
-				DA651E7C1E5706D70031B95C /* Foundation.framework in Frameworks */,
-				DA651E881E5706D70031B95C /* SafariServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,20 +179,11 @@
 			path = MessagesExtension;
 			sourceTree = "<group>";
 		};
-		DA651E5C1E5705E80031B95C /* KarmiesExample_PSMAdKit */ = {
-			isa = PBXGroup;
-			children = (
-				DA651E5D1E5705E80031B95C /* AppDelegate.swift */,
-			);
-			path = KarmiesExample_PSMAdKit;
-			sourceTree = "<group>";
-		};
 		DA7081141DD3D7EC001811FF = {
 			isa = PBXGroup;
 			children = (
 				DA70811F1DD3D7EC001811FF /* KarmiesExample */,
 				DA5DC6AB1E66207300DD05B8 /* MessagesExtension */,
-				DA651E5C1E5705E80031B95C /* KarmiesExample_PSMAdKit */,
 				DA70811E1DD3D7EC001811FF /* Products */,
 				FBA53DC8CA31CCE45AD8DB32 /* Pods */,
 				570997F0410DA89BB3E59548 /* Frameworks */,
@@ -282,7 +194,6 @@
 			isa = PBXGroup;
 			children = (
 				DA70811D1DD3D7EC001811FF /* Example.app */,
-				DA651E5B1E5705E80031B95C /* ExamplePSM.app */,
 				DA5DC6A81E66207300DD05B8 /* MessagesExtension.appex */,
 			);
 			name = Products;
@@ -337,26 +248,6 @@
 			productReference = DA5DC6A81E66207300DD05B8 /* MessagesExtension.appex */;
 			productType = "com.apple.product-type.app-extension.messages";
 		};
-		DA651E5A1E5705E80031B95C /* KarmiesExample_PSMAdKit */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DA651E6C1E5705E80031B95C /* Build configuration list for PBXNativeTarget "KarmiesExample_PSMAdKit" */;
-			buildPhases = (
-				98E6178718F11D396D4F7C58 /* [CP] Check Pods Manifest.lock */,
-				DA651E571E5705E80031B95C /* Sources */,
-				DA651E581E5705E80031B95C /* Frameworks */,
-				DA651E591E5705E80031B95C /* Resources */,
-				74EF03E5B7E63FCA912E6DE5 /* [CP] Embed Pods Frameworks */,
-				6491A3A27932579307B31293 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = KarmiesExample_PSMAdKit;
-			productName = KarmiesExample_PSMAdKit;
-			productReference = DA651E5B1E5705E80031B95C /* ExamplePSM.app */;
-			productType = "com.apple.product-type.application";
-		};
 		DA70811C1DD3D7EC001811FF /* KarmiesExample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA70812F1DD3D7EC001811FF /* Build configuration list for PBXNativeTarget "KarmiesExample" */;
@@ -394,11 +285,6 @@
 						DevelopmentTeam = 7J79D89C8K;
 						ProvisioningStyle = Automatic;
 					};
-					DA651E5A1E5705E80031B95C = {
-						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 7J79D89C8K;
-						ProvisioningStyle = Automatic;
-					};
 					DA70811C1DD3D7EC001811FF = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = 7J79D89C8K;
@@ -422,7 +308,6 @@
 			targets = (
 				DA70811C1DD3D7EC001811FF /* KarmiesExample */,
 				DA5DC6A71E66207300DD05B8 /* MessagesExtension */,
-				DA651E5A1E5705E80031B95C /* KarmiesExample_PSMAdKit */,
 			);
 		};
 /* End PBXProject section */
@@ -434,16 +319,6 @@
 			files = (
 				DA5DC6B21E66207300DD05B8 /* Assets.xcassets in Resources */,
 				DA5DC6B01E66207300DD05B8 /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA651E591E5705E80031B95C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DA651E6F1E5706570031B95C /* Main.storyboard in Resources */,
-				DA651E711E57065E0031B95C /* Assets.xcassets in Resources */,
-				DA651E701E57065A0031B95C /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,52 +380,7 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		6491A3A27932579307B31293 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KarmiesExample_PSMAdKit/Pods-KarmiesExample_PSMAdKit-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6A7C3EB86253C8C72856ACAA /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		74EF03E5B7E63FCA912E6DE5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KarmiesExample_PSMAdKit/Pods-KarmiesExample_PSMAdKit-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		98E6178718F11D396D4F7C58 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -588,16 +418,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA5DC6AD1E66207300DD05B8 /* MessagesViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA651E571E5705E80031B95C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DA651E6E1E5706510031B95C /* TableViewCell.swift in Sources */,
-				DA651E6D1E57064F0031B95C /* ViewController.swift in Sources */,
-				DA651E5E1E5705E80031B95C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,35 +497,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.karmies.KarmiesExample.MessagesExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		DA651E6A1E5705E80031B95C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 27CF83AFA812C185291D169F /* Pods-KarmiesExample_PSMAdKit.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7J79D89C8K;
-				INFOPLIST_FILE = KarmiesExample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.karmies.KarmiesExample-PSMAdKit";
-				PRODUCT_NAME = ExamplePSM;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		DA651E6B1E5705E80031B95C /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A0A8EF971755B5D78ED058C /* Pods-KarmiesExample_PSMAdKit.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7J79D89C8K;
-				INFOPLIST_FILE = KarmiesExample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.karmies.KarmiesExample-PSMAdKit";
-				PRODUCT_NAME = ExamplePSM;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 			};
@@ -814,11 +605,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 7J79D89C8K;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Pods/KarmiesSDK-PSMAdKit",
-				);
 				INFOPLIST_FILE = KarmiesExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.karmies.KarmiesExample;
@@ -836,11 +622,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 7J79D89C8K;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Pods/KarmiesSDK-PSMAdKit",
-				);
 				INFOPLIST_FILE = KarmiesExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.karmies.KarmiesExample;
@@ -857,15 +638,6 @@
 			buildConfigurations = (
 				DA5DC6B71E66207300DD05B8 /* Debug */,
 				DA5DC6B81E66207300DD05B8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DA651E6C1E5705E80031B95C /* Build configuration list for PBXNativeTarget "KarmiesExample_PSMAdKit" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DA651E6A1E5705E80031B95C /* Debug */,
-				DA651E6B1E5705E80031B95C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

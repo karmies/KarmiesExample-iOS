@@ -115,10 +115,9 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # define SWIFT_UNAVAILABLE __attribute__((unavailable))
 #endif
 #if defined(__has_feature) && __has_feature(modules)
-@import FastImageCache;
 @import ObjectiveC;
-@import CoreGraphics;
 @import Foundation;
+@import CoreGraphics;
 @import CoreLocation;
 @import UIKit;
 @import CoreFoundation;
@@ -131,6 +130,19 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
+@class NSCoder;
+
+SWIFT_CLASS("_TtC10KarmiesSDK11CacheObject")
+@interface CacheObject : NSObject <NSCoding>
+@property (nonatomic, readonly, strong) id _Nonnull value;
+@property (nonatomic, readonly, copy) NSDate * _Nonnull expiryDate;
+- (nonnull instancetype)initWithValue:(id _Nonnull)value expiryDate:(NSDate * _Nonnull)expiryDate OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)isExpired;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)aCoder;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
 @class UIImage;
 
 SWIFT_CLASS("_TtC10KarmiesSDK11ImageEntity")
@@ -148,6 +160,78 @@ SWIFT_CLASS("_TtC10KarmiesSDK14CategoryEntity")
 @property (nonatomic, readonly, copy) NSString * _Nonnull sourceImageUUID;
 - (NSURL * _Nonnull)sourceImageURLWithFormatName:(NSString * _Nonnull)formatName;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+@class NSOperationQueue;
+@class NSURLSessionTask;
+@class NSURLCredential;
+@class NSURLSession;
+@class NSHTTPURLResponse;
+@class NSInputStream;
+@class NSURLAuthenticationChallenge;
+
+SWIFT_CLASS("_TtC10KarmiesSDK12TaskDelegate")
+@interface TaskDelegate : NSObject
+@property (nonatomic, readonly, strong) NSOperationQueue * _Nonnull queue;
+@property (nonatomic, readonly, copy) NSData * _Nullable data;
+@property (nonatomic) NSError * _Nullable error;
+@property (nonatomic, strong) NSURLSessionTask * _Nullable task;
+@property (nonatomic, strong) NSURLCredential * _Nullable credential;
+@property (nonatomic, strong) id _Nullable metrics;
+- (nonnull instancetype)initWithTask:(NSURLSessionTask * _Nullable)task OBJC_DESIGNATED_INITIALIZER;
+- (void)reset;
+@property (nonatomic, copy) NSURLRequest * _Nullable (^ _Nullable taskWillPerformHTTPRedirection)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull, NSHTTPURLResponse * _Nonnull, NSURLRequest * _Nonnull);
+@property (nonatomic, copy) NSInputStream * _Nullable (^ _Nullable taskNeedNewBodyStream)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable taskDidCompleteWithError)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull, NSError * _Nullable);
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task willPerformHTTPRedirection:(NSHTTPURLResponse * _Nonnull)response newRequest:(NSURLRequest * _Nonnull)request completionHandler:(void (^ _Nonnull)(NSURLRequest * _Nullable))completionHandler;
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task didReceiveChallenge:(NSURLAuthenticationChallenge * _Nonnull)challenge completionHandler:(void (^ _Nonnull)(enum NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler;
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task needNewBodyStream:(void (^ _Nonnull)(NSInputStream * _Nullable))completionHandler;
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task didCompleteWithError:(NSError * _Nullable)error;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+@class NSURLSessionDataTask;
+@class NSProgress;
+@class NSURLResponse;
+@class NSURLSessionDownloadTask;
+@class NSCachedURLResponse;
+
+SWIFT_CLASS("_TtC10KarmiesSDK16DataTaskDelegate")
+@interface DataTaskDelegate : TaskDelegate <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
+@property (nonatomic, readonly, strong) NSURLSessionDataTask * _Nonnull dataTask;
+@property (nonatomic, readonly, copy) NSData * _Nullable data;
+@property (nonatomic, strong) NSProgress * _Nonnull progress;
+@property (nonatomic, copy) void (^ _Nullable dataStream)(NSData * _Nonnull);
+- (nonnull instancetype)initWithTask:(NSURLSessionTask * _Nullable)task OBJC_DESIGNATED_INITIALIZER;
+- (void)reset;
+@property (nonatomic, copy) enum NSURLSessionResponseDisposition (^ _Nullable dataTaskDidReceiveResponse)(NSURLSession * _Nonnull, NSURLSessionDataTask * _Nonnull, NSURLResponse * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable dataTaskDidBecomeDownloadTask)(NSURLSession * _Nonnull, NSURLSessionDataTask * _Nonnull, NSURLSessionDownloadTask * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable dataTaskDidReceiveData)(NSURLSession * _Nonnull, NSURLSessionDataTask * _Nonnull, NSData * _Nonnull);
+@property (nonatomic, copy) NSCachedURLResponse * _Nullable (^ _Nullable dataTaskWillCacheResponse)(NSURLSession * _Nonnull, NSURLSessionDataTask * _Nonnull, NSCachedURLResponse * _Nonnull);
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didReceiveResponse:(NSURLResponse * _Nonnull)response completionHandler:(void (^ _Nonnull)(enum NSURLSessionResponseDisposition))completionHandler;
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didBecomeDownloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask;
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didReceiveData:(NSData * _Nonnull)data;
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask willCacheResponse:(NSCachedURLResponse * _Nonnull)proposedResponse completionHandler:(void (^ _Nonnull)(NSCachedURLResponse * _Nullable))completionHandler;
+@end
+
+
+SWIFT_CLASS("_TtC10KarmiesSDK20DownloadTaskDelegate")
+@interface DownloadTaskDelegate : TaskDelegate <NSURLSessionDownloadDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
+@property (nonatomic, readonly, strong) NSURLSessionDownloadTask * _Nonnull downloadTask;
+@property (nonatomic, strong) NSProgress * _Nonnull progress;
+@property (nonatomic, copy) NSData * _Nullable resumeData;
+@property (nonatomic, readonly, copy) NSData * _Nullable data;
+@property (nonatomic, copy) NSURL * _Nullable temporaryURL;
+@property (nonatomic, copy) NSURL * _Nullable destinationURL;
+@property (nonatomic, readonly, copy) NSURL * _Nullable fileURL;
+- (nonnull instancetype)initWithTask:(NSURLSessionTask * _Nullable)task OBJC_DESIGNATED_INITIALIZER;
+- (void)reset;
+@property (nonatomic, copy) NSURL * _Nonnull (^ _Nullable downloadTaskDidFinishDownloadingToURL)(NSURLSession * _Nonnull, NSURLSessionDownloadTask * _Nonnull, NSURL * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable downloadTaskDidWriteData)(NSURLSession * _Nonnull, NSURLSessionDownloadTask * _Nonnull, int64_t, int64_t, int64_t);
+@property (nonatomic, copy) void (^ _Nullable downloadTaskDidResumeAtOffset)(NSURLSession * _Nonnull, NSURLSessionDownloadTask * _Nonnull, int64_t, int64_t);
+- (void)URLSession:(NSURLSession * _Nonnull)session downloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask didFinishDownloadingToURL:(NSURL * _Nonnull)location;
+- (void)URLSession:(NSURLSession * _Nonnull)session downloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;
+- (void)URLSession:(NSURLSession * _Nonnull)session downloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes;
 @end
 
 @class KarmiesEmoji;
@@ -334,7 +418,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Karmies * _N
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSCoder;
 @class NSTimer;
 
 SWIFT_CLASS("_TtC10KarmiesSDK27KarmiesActionCircleMenuView")
@@ -459,7 +542,7 @@ SWIFT_CLASS("_TtC10KarmiesSDK15KarmiesCategory")
   The list of emojis.
 */
 @property (nonatomic, readonly, copy) NSArray<NSString *> * _Nonnull possibleEmojis;
-- (nonnull instancetype)initWithName:(NSString * _Nonnull)name image:(NSString * _Nonnull)image desc:(NSString * _Nonnull)desc emojis:(NSArray<NSString *> * _Nonnull)emojis localImage:(UIImage * _Nullable)localImage;
+- (nonnull instancetype)initWithName:(NSString * _Nonnull)name image:(NSString * _Nonnull)image desc:(NSString * _Nonnull)desc emojis:(NSArray<NSString *> * _Nonnull)emojis;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 /**
   <ul>
@@ -689,7 +772,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 SWIFT_CLASS("_TtC10KarmiesSDK26KarmiesDebugViewController")
 @interface KarmiesDebugViewController : UITableViewController
 @property (nonatomic, weak) IBOutlet UITextField * _Null_unspecified keyboardTextField;
-@property (nonatomic, weak) IBOutlet UITextField * _Null_unspecified psmTextField;
 @property (nonatomic, weak) IBOutlet UISlider * _Null_unspecified locationSlider;
 @property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified locationLabel;
 @property (nonatomic, weak) IBOutlet UISwitch * _Null_unspecified keyboardSwitch;
@@ -737,6 +819,9 @@ SWIFT_CLASS("_TtC10KarmiesSDK12KarmiesEmoji")
 @property (nonatomic, readonly, copy) NSURL * _Nonnull infoURL;
 - (nonnull instancetype)initWithName:(NSString * _Nonnull)name desc:(NSString * _Nonnull)desc keywords:(NSArray<NSString *> * _Nonnull)keywords image:(NSString * _Nullable)image largeImage:(NSString * _Nullable)largeImage localImage:(UIImage * _Nullable)localImage localLargeImage:(UIImage * _Nullable)localLargeImage localAction:(NSString * _Nullable)localAction apps:(NSArray<KarmiesApp *> * _Nullable)apps payload:(NSString * _Nullable)payload remote:(BOOL)remote;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+/**
+  Mark an emoji as read.
+*/
 - (void)markAsRead;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
@@ -1041,7 +1126,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesMessa
 */
 - (void)drawSerializedMessage:(NSString * _Nonnull)message outgoing:(BOOL)outgoing insideFrame:(CGRect)frame withFont:(UIFont * _Nonnull)font;
 /**
-  Returns the link from the message at the point if it’s presented
+  Returns the link from the message at the point if it’s presented.
   \param point The point inside the message frame.
 
   \param frame The message frame.
@@ -1058,16 +1143,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesMessa
 */
 - (NSString * _Nullable)linkAt:(CGPoint)point inside:(CGRect)frame with:(NSString * _Nonnull)message outgoing:(BOOL)outgoing font:(UIFont * _Nonnull)font;
 /**
-  Returns the link from the textView at the point if it’s presented
-  \param point The point inside the message frame.
+  Returns the link from the specified point in a text view.
+  \param point the point inside the message frame
 
-  \param textView The textView.
+  \param textView the text view
 
-  \param outgoing Is the message is outgoing/ingoing.
+  \param outgoing true if the message is outgoing
 
 
   returns:
-  The link if one is found or nil.
+  the link if found else nil
 */
 - (NSString * _Nullable)linkAt:(CGPoint)point in:(UITextView * _Nonnull)textView outgoing:(BOOL)outgoing;
 @end
@@ -1224,6 +1309,10 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 
 SWIFT_CLASS("_TtC10KarmiesSDK12KarmiesUtils")
 @interface KarmiesUtils : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSCharacterSet * _Nonnull autoSuggestTrimSet;)
++ (NSCharacterSet * _Nonnull)autoSuggestTrimSet;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSCharacterSet * _Nonnull autoReplaceTrimSet;)
++ (NSCharacterSet * _Nonnull)autoReplaceTrimSet;
 /**
   Creates UIFont object for the CTFont object using name and size.
 */
@@ -1232,19 +1321,29 @@ SWIFT_CLASS("_TtC10KarmiesSDK12KarmiesUtils")
   Modifies UITextView object’s text insets and placeholder view to make free space on the left to place button there.
 */
 + (void)placeButton:(UIButton * _Nonnull)button onLeftOf:(UITextView * _Nonnull)textView withPlaceholder:(UIView * _Nullable)placeholderView in:(UIView * _Nullable)superview;
+/**
+  Determine current suggest text for a text view.
+  \param textView the text view
+
+
+  returns:
+  the suggest text
+*/
++ (NSString * _Nonnull)suggestTextFor:(UITextView * _Nonnull)textView;
 + (NSArray<KarmiesCategory *> * _Nonnull)joinWithCategories:(NSArray<KarmiesCategory *> * _Nonnull)categories geoplacements:(NSArray<KarmiesGeoplacement *> * _Nonnull)geoplacements location:(CLLocation * _Nonnull)location;
 + (NSArray<NSString *> * _Nonnull)joinWithEmojis:(NSArray<NSString *> * _Nonnull)emojis geoplacements:(NSArray<KarmiesGeoplacement *> * _Nonnull)geoplacements location:(CLLocation * _Nonnull)location;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class WKWebView;
 @class NSLayoutConstraint;
+@class WKWebView;
 @class WKNavigation;
+@class UIWebView;
 
 SWIFT_CLASS("_TtC10KarmiesSDK24KarmiesWebViewController")
-@interface KarmiesWebViewController : UIViewController <WKNavigationDelegate>
+@interface KarmiesWebViewController : UIViewController <UIWebViewDelegate, WKNavigationDelegate>
 @property (nonatomic, strong) UIViewController * _Nullable previousRootViewController;
-@property (nonatomic, readonly, strong) WKWebView * _Null_unspecified webView;
+@property (nonatomic, readonly, strong) UIView * _Null_unspecified webView;
 @property (nonatomic, readonly, strong) UIView * _Null_unspecified bottomPanelView;
 @property (nonatomic, readonly, strong) NSLayoutConstraint * _Null_unspecified bottomPanelViewHeightContraint;
 @property (nonatomic, readonly) BOOL prefersStatusBarHidden;
@@ -1252,7 +1351,10 @@ SWIFT_CLASS("_TtC10KarmiesSDK24KarmiesWebViewController")
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 - (void)viewDidLoad;
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^ _Nullable)(void))completion;
+- (void)evaluateJavaScript:(NSString * _Nonnull)script;
 - (void)webView:(WKWebView * _Nonnull)webView didCommitNavigation:(WKNavigation * _Null_unspecified)navigation;
+- (void)webViewDidFinishLoad:(UIWebView * _Nonnull)webView;
+- (BOOL)webView:(UIWebView * _Nonnull)webView shouldStartLoadWithRequest:(NSURLRequest * _Nonnull)request navigationType:(UIWebViewNavigationType)navigationType;
 - (void)publishShellTokenWithData:(NSDictionary<NSString *, id> * _Nonnull)data;
 - (void)close;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
@@ -1261,7 +1363,7 @@ SWIFT_CLASS("_TtC10KarmiesSDK24KarmiesWebViewController")
 
 SWIFT_CLASS("_TtC10KarmiesSDK31KarmiesWebFeatureViewController")
 @interface KarmiesWebFeatureViewController : KarmiesWebViewController
-@property (nonatomic, strong) KarmiesEmoji * _Null_unspecified emoji;
+@property (nonatomic, strong) KarmiesEmoji * _Nonnull emoji;
 @property (nonatomic, copy) NSString * _Nullable categoryName;
 @property (nonatomic, copy) void (^ _Nullable completionHandler)(NSString * _Nullable);
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
@@ -1271,8 +1373,6 @@ SWIFT_CLASS("_TtC10KarmiesSDK31KarmiesWebFeatureViewController")
 - (void)publishShellTokenWithData:(NSDictionary<NSString *, id> * _Nonnull)data;
 - (void)close;
 - (void)submitAction:(id _Nonnull)sender;
-- (void)setupBannerAd;
-- (void)setupInterstitialAd;
 - (void)openURL:(NSURL * _Nonnull)url;
 - (void)openWithUrl:(NSURL * _Nonnull)url;
 - (nonnull instancetype)initWithUrl:(NSURL * _Nonnull)url topOffset:(CGFloat)topOffset bottomOffset:(CGFloat)bottomOffset SWIFT_UNAVAILABLE;
@@ -1286,8 +1386,153 @@ SWIFT_CLASS("_TtC10KarmiesSDK31KarmiesWebFeatureViewController")
 @end
 
 
+@interface NSNumber (SWIFT_EXTENSION(KarmiesSDK))
+@end
+
+@class NSURLSessionStreamTask;
+@class NSOutputStream;
+
+SWIFT_CLASS("_TtC10KarmiesSDK15SessionDelegate")
+@interface SessionDelegate : NSObject
+@property (nonatomic, copy) void (^ _Nullable sessionDidBecomeInvalidWithError)(NSURLSession * _Nonnull, NSError * _Nullable);
+@property (nonatomic, copy) void (^ _Nullable sessionDidReceiveChallengeWithCompletion)(NSURLSession * _Nonnull, NSURLAuthenticationChallenge * _Nonnull, SWIFT_NOESCAPE void (^ _Nonnull)(enum NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable));
+@property (nonatomic, copy) void (^ _Nullable sessionDidFinishEventsForBackgroundURLSession)(NSURLSession * _Nonnull);
+@property (nonatomic, copy) NSURLRequest * _Nullable (^ _Nullable taskWillPerformHTTPRedirection)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull, NSHTTPURLResponse * _Nonnull, NSURLRequest * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable taskWillPerformHTTPRedirectionWithCompletion)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull, NSHTTPURLResponse * _Nonnull, NSURLRequest * _Nonnull, SWIFT_NOESCAPE void (^ _Nonnull)(NSURLRequest * _Nullable));
+@property (nonatomic, copy) void (^ _Nullable taskDidReceiveChallengeWithCompletion)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull, NSURLAuthenticationChallenge * _Nonnull, SWIFT_NOESCAPE void (^ _Nonnull)(enum NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable));
+@property (nonatomic, copy) NSInputStream * _Nullable (^ _Nullable taskNeedNewBodyStream)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable taskNeedNewBodyStreamWithCompletion)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull, SWIFT_NOESCAPE void (^ _Nonnull)(NSInputStream * _Nullable));
+@property (nonatomic, copy) void (^ _Nullable taskDidSendBodyData)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull, int64_t, int64_t, int64_t);
+@property (nonatomic, copy) void (^ _Nullable taskDidComplete)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull, NSError * _Nullable);
+@property (nonatomic, copy) enum NSURLSessionResponseDisposition (^ _Nullable dataTaskDidReceiveResponse)(NSURLSession * _Nonnull, NSURLSessionDataTask * _Nonnull, NSURLResponse * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable dataTaskDidReceiveResponseWithCompletion)(NSURLSession * _Nonnull, NSURLSessionDataTask * _Nonnull, NSURLResponse * _Nonnull, SWIFT_NOESCAPE void (^ _Nonnull)(enum NSURLSessionResponseDisposition));
+@property (nonatomic, copy) void (^ _Nullable dataTaskDidBecomeDownloadTask)(NSURLSession * _Nonnull, NSURLSessionDataTask * _Nonnull, NSURLSessionDownloadTask * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable dataTaskDidReceiveData)(NSURLSession * _Nonnull, NSURLSessionDataTask * _Nonnull, NSData * _Nonnull);
+@property (nonatomic, copy) NSCachedURLResponse * _Nullable (^ _Nullable dataTaskWillCacheResponse)(NSURLSession * _Nonnull, NSURLSessionDataTask * _Nonnull, NSCachedURLResponse * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable dataTaskWillCacheResponseWithCompletion)(NSURLSession * _Nonnull, NSURLSessionDataTask * _Nonnull, NSCachedURLResponse * _Nonnull, SWIFT_NOESCAPE void (^ _Nonnull)(NSCachedURLResponse * _Nullable));
+@property (nonatomic, copy) void (^ _Nullable downloadTaskDidFinishDownloadingToURL)(NSURLSession * _Nonnull, NSURLSessionDownloadTask * _Nonnull, NSURL * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable downloadTaskDidWriteData)(NSURLSession * _Nonnull, NSURLSessionDownloadTask * _Nonnull, int64_t, int64_t, int64_t);
+@property (nonatomic, copy) void (^ _Nullable downloadTaskDidResumeAtOffset)(NSURLSession * _Nonnull, NSURLSessionDownloadTask * _Nonnull, int64_t, int64_t);
+@property (nonatomic, copy) void (^ _Nullable streamTaskReadClosed)(NSURLSession * _Nonnull, NSURLSessionStreamTask * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable streamTaskWriteClosed)(NSURLSession * _Nonnull, NSURLSessionStreamTask * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable streamTaskBetterRouteDiscovered)(NSURLSession * _Nonnull, NSURLSessionStreamTask * _Nonnull);
+@property (nonatomic, copy) void (^ _Nullable streamTaskDidBecomeInputAndOutputStreams)(NSURLSession * _Nonnull, NSURLSessionStreamTask * _Nonnull, NSInputStream * _Nonnull, NSOutputStream * _Nonnull);
+@property (nonatomic) id _Nullable _streamTaskReadClosed;
+@property (nonatomic) id _Nullable _streamTaskWriteClosed;
+@property (nonatomic) id _Nullable _streamTaskBetterRouteDiscovered;
+@property (nonatomic) id _Nullable _streamTaskDidBecomeInputStream;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)respondsToSelector:(SEL _Nonnull)selector;
+@end
+
+
+@interface SessionDelegate (SWIFT_EXTENSION(KarmiesSDK)) <NSURLSessionDownloadDelegate>
+- (void)URLSession:(NSURLSession * _Nonnull)session downloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask didFinishDownloadingToURL:(NSURL * _Nonnull)location;
+- (void)URLSession:(NSURLSession * _Nonnull)session downloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;
+- (void)URLSession:(NSURLSession * _Nonnull)session downloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes;
+@end
+
+
+@interface SessionDelegate (SWIFT_EXTENSION(KarmiesSDK)) <NSURLSessionDelegate>
+- (void)URLSession:(NSURLSession * _Nonnull)session didBecomeInvalidWithError:(NSError * _Nullable)error;
+- (void)URLSession:(NSURLSession * _Nonnull)session didReceiveChallenge:(NSURLAuthenticationChallenge * _Nonnull)challenge completionHandler:(void (^ _Nonnull)(enum NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler;
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession * _Nonnull)session;
+@end
+
+
+@interface SessionDelegate (SWIFT_EXTENSION(KarmiesSDK)) <NSURLSessionDataDelegate>
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didReceiveResponse:(NSURLResponse * _Nonnull)response completionHandler:(void (^ _Nonnull)(enum NSURLSessionResponseDisposition))completionHandler;
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didBecomeDownloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask;
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didReceiveData:(NSData * _Nonnull)data;
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask willCacheResponse:(NSCachedURLResponse * _Nonnull)proposedResponse completionHandler:(void (^ _Nonnull)(NSCachedURLResponse * _Nullable))completionHandler;
+@end
+
+
+@interface SessionDelegate (SWIFT_EXTENSION(KarmiesSDK)) <NSURLSessionStreamDelegate>
+- (void)URLSession:(NSURLSession * _Nonnull)session readClosedForStreamTask:(NSURLSessionStreamTask * _Nonnull)streamTask;
+- (void)URLSession:(NSURLSession * _Nonnull)session writeClosedForStreamTask:(NSURLSessionStreamTask * _Nonnull)streamTask;
+- (void)URLSession:(NSURLSession * _Nonnull)session betterRouteDiscoveredForStreamTask:(NSURLSessionStreamTask * _Nonnull)streamTask;
+- (void)URLSession:(NSURLSession * _Nonnull)session streamTask:(NSURLSessionStreamTask * _Nonnull)streamTask didBecomeInputStream:(NSInputStream * _Nonnull)inputStream outputStream:(NSOutputStream * _Nonnull)outputStream;
+@end
+
+@class NSURLSessionTaskMetrics;
+
+@interface SessionDelegate (SWIFT_EXTENSION(KarmiesSDK)) <NSURLSessionTaskDelegate>
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task willPerformHTTPRedirection:(NSHTTPURLResponse * _Nonnull)response newRequest:(NSURLRequest * _Nonnull)request completionHandler:(void (^ _Nonnull)(NSURLRequest * _Nullable))completionHandler;
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task didReceiveChallenge:(NSURLAuthenticationChallenge * _Nonnull)challenge completionHandler:(void (^ _Nonnull)(enum NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler;
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task needNewBodyStream:(void (^ _Nonnull)(NSInputStream * _Nullable))completionHandler;
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend;
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task didFinishCollectingMetrics:(NSURLSessionTaskMetrics * _Nonnull)metrics;
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task didCompleteWithError:(NSError * _Nullable)error;
+@end
+
+
+
+@interface UIButton (SWIFT_EXTENSION(KarmiesSDK))
+- (void)af_cancelImageRequestFor:(UIControlState)state;
+- (void)af_cancelBackgroundImageRequestFor:(UIControlState)state;
+@end
+
+
 @interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
 + (UIImage * _Nullable)karmies_imageWithNamed:(NSString * _Nonnull)name;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
+- (UIImage * _Nullable)af_imageFilteredWithCoreImageFilter:(NSString * _Nonnull)name parameters:(NSDictionary<NSString *, id> * _Nullable)parameters;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
+- (UIImage * _Nonnull)af_imageRoundedWithCornerRadius:(CGFloat)radius divideRadiusByImageScale:(BOOL)divideRadiusByImageScale;
+- (UIImage * _Nonnull)af_imageRoundedIntoCircle;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
++ (UIImage * _Nullable)af_threadSafeImageWith:(NSData * _Nonnull)data;
++ (UIImage * _Nullable)af_threadSafeImageWith:(NSData * _Nonnull)data scale:(CGFloat)scale;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
+- (UIImage * _Nonnull)af_imageScaledTo:(CGSize)size;
+- (UIImage * _Nonnull)af_imageAspectScaledToFit:(CGSize)size;
+- (UIImage * _Nonnull)af_imageAspectScaledToFill:(CGSize)size;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
+@property (nonatomic, readonly) BOOL af_containsAlphaComponent;
+@property (nonatomic, readonly) BOOL af_isOpaque;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
+@property (nonatomic) BOOL af_inflated;
+- (void)af_inflate;
+@end
+
+
+@interface UIImageView (SWIFT_EXTENSION(KarmiesSDK))
+- (void)af_cancelImageRequest;
+@end
+
+
+@interface NSURLSession (SWIFT_EXTENSION(KarmiesSDK))
+@end
+
+@class NSURLSessionUploadTask;
+
+SWIFT_CLASS("_TtC10KarmiesSDK18UploadTaskDelegate")
+@interface UploadTaskDelegate : DataTaskDelegate
+@property (nonatomic, readonly, strong) NSURLSessionUploadTask * _Nonnull uploadTask;
+@property (nonatomic, strong) NSProgress * _Nonnull uploadProgress;
+- (nonnull instancetype)initWithTask:(NSURLSessionTask * _Nullable)task OBJC_DESIGNATED_INITIALIZER;
+- (void)reset;
+@property (nonatomic, copy) void (^ _Nullable taskDidSendBodyData)(NSURLSession * _Nonnull, NSURLSessionTask * _Nonnull, int64_t, int64_t, int64_t);
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend;
 @end
 
 #pragma clang diagnostic pop
