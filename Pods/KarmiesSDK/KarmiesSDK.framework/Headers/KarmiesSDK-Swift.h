@@ -143,25 +143,6 @@ SWIFT_CLASS("_TtC10KarmiesSDK11CacheObject")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 @end
 
-@class UIImage;
-
-SWIFT_CLASS("_TtC10KarmiesSDK11ImageEntity")
-@interface ImageEntity : NSObject
-- (FICEntityImageDrawingBlock _Nonnull)drawingBlockForImage:(UIImage * _Nonnull)image withFormatName:(NSString * _Nonnull)formatName;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-@class KarmiesCategory;
-
-SWIFT_CLASS("_TtC10KarmiesSDK14CategoryEntity")
-@interface CategoryEntity : ImageEntity <FICEntity>
-- (nonnull instancetype)initWithCategory:(KarmiesCategory * _Nonnull)category OBJC_DESIGNATED_INITIALIZER;
-@property (nonatomic, readonly, copy) NSString * _Nonnull UUID;
-@property (nonatomic, readonly, copy) NSString * _Nonnull sourceImageUUID;
-- (NSURL * _Nonnull)sourceImageURLWithFormatName:(NSString * _Nonnull)formatName;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-@end
-
 @class NSOperationQueue;
 @class NSURLSessionTask;
 @class NSURLCredential;
@@ -234,17 +215,15 @@ SWIFT_CLASS("_TtC10KarmiesSDK20DownloadTaskDelegate")
 - (void)URLSession:(NSURLSession * _Nonnull)session downloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes;
 @end
 
-@class KarmiesEmoji;
 
-SWIFT_CLASS("_TtC10KarmiesSDK11EmojiEntity")
-@interface EmojiEntity : ImageEntity <FICEntity>
-- (nonnull instancetype)initWithEmoji:(KarmiesEmoji * _Nonnull)emoji OBJC_DESIGNATED_INITIALIZER;
-@property (nonatomic, readonly, copy) NSString * _Nonnull UUID;
-@property (nonatomic, readonly, copy) NSString * _Nonnull sourceImageUUID;
-- (NSURL * _Nonnull)sourceImageURLWithFormatName:(NSString * _Nonnull)formatName;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+SWIFT_CLASS("_TtC10KarmiesSDK29ImageDownloaderSessionHandler")
+@interface ImageDownloaderSessionHandler : NSObject <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didReceiveResponse:(NSURLResponse * _Nonnull)response completionHandler:(void (^ _Nonnull)(enum NSURLSessionResponseDisposition))completionHandler;
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didReceiveData:(NSData * _Nonnull)data;
+- (void)URLSession:(NSURLSession * _Nonnull)session task:(NSURLSessionTask * _Nonnull)task didCompleteWithError:(NSError * _Nullable)error;
+- (void)URLSession:(NSURLSession * _Nonnull)session didReceiveChallenge:(NSURLAuthenticationChallenge * _Nonnull)challenge completionHandler:(void (^ _Nonnull)(enum NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
-
 
 @class KarmiesData;
 @class KarmiesImages;
@@ -253,7 +232,9 @@ SWIFT_CLASS("_TtC10KarmiesSDK11EmojiEntity")
 @class KarmiesAnalytics;
 @class UIApplication;
 @class CLLocation;
+@class CLPlacemark;
 @class KarmiesController;
+@class KarmiesEmoji;
 @class UIViewController;
 
 /**
@@ -304,6 +285,10 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Karmies * _N
 */
 @property (nonatomic) BOOL monitorLocation;
 /**
+  Determine if location is currently being monitored.
+*/
+@property (nonatomic, readonly) BOOL isMonitoringLocation;
+/**
   Internal to use for periodic location monitoring.
 */
 @property (nonatomic) NSTimeInterval locationCheckInterval;
@@ -318,6 +303,17 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Karmies * _N
   the location
 */
 @property (nonatomic, readonly, strong) CLLocation * _Nullable currentLocation;
+/**
+  <ul>
+    <li>
+      Returns the current placemark used by Karmies for display purposes which may be up to 20 seconds stale.
+    </li>
+  </ul>
+
+  returns:
+  the location
+*/
+@property (nonatomic, readonly, strong) CLPlacemark * _Nullable currentPlacemark;
 /**
   Flag to allow secret access to a debug controller by developers (defaults to true).
 */
@@ -444,7 +440,7 @@ SWIFT_CLASS("_TtC10KarmiesSDK16KarmiesAnalytics")
 @interface KarmiesAnalytics : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesAnalytics * _Nonnull shared;)
 + (KarmiesAnalytics * _Nonnull)shared;
-@property (nonatomic, readonly, copy) NSString * _Nullable agentID;
+@property (nonatomic, readonly, copy) NSString * _Nonnull agentID;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 - (void)configureWithClientID:(NSString * _Nonnull)clientID;
 - (void)sendKeyboardCloseEvent;
@@ -497,6 +493,7 @@ SWIFT_CLASS("_TtC10KarmiesSDK11KarmiesArea")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 @end
 
+@class KarmiesCategory;
 @class KarmiesGeoplacement;
 
 SWIFT_CLASS("_TtC10KarmiesSDK17KarmiesCategories")
@@ -520,6 +517,7 @@ SWIFT_CLASS("_TtC10KarmiesSDK31KarmiesCategoriesCollectionView")
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class UIImage;
 
 SWIFT_CLASS("_TtC10KarmiesSDK15KarmiesCategory")
 @interface KarmiesCategory : NSObject <NSCoding>
@@ -586,12 +584,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)imageFormat;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull largeImageFormat;)
 + (NSString * _Nonnull)largeImageFormat;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger maxImageDownloads;)
-+ (NSInteger)maxImageDownloads;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 - (void)getCategoriesWithReload:(BOOL)reload completion:(void (^ _Nonnull)(NSArray<KarmiesCategory *> * _Nullable, NSArray<KarmiesGeoplacement *> * _Nullable, NSError * _Nullable))completion;
 - (void)getSearchIndexWithReload:(BOOL)reload completion:(void (^ _Nonnull)(NSDictionary<NSString *, KarmiesEmoji *> * _Nullable, NSError * _Nullable))completion;
-- (void)getImageWithUrl:(NSURL * _Nonnull)url reload:(BOOL)reload completion:(void (^ _Nullable)(UIImage * _Nullable))completion;
 - (NSURL * _Nullable)categoriesURL;
 - (NSURL * _Nullable)searchIndexURL;
 - (NSURL * _Nullable)infoURLWithName:(NSString * _Nonnull)name;
@@ -757,10 +752,10 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 
   \param location the location, or nil to use the last tracked location if available
 
-  \param completion called when complete with results and flag indicating partial matches are present
+  \param completion called when complete with results and flags indicating exact and partial matches are present
 
 */
-- (void)suggestedEmojisFor:(NSString * _Nonnull)text includePartialMatches:(BOOL)includePartialMatches includeHiddenCategories:(BOOL)includeHiddenCategories at:(CLLocation * _Nullable)location :(void (^ _Nonnull)(NSArray<KarmiesEmoji *> * _Nonnull, NSArray<NSString *> * _Nonnull, BOOL))completion;
+- (void)suggestedEmojisFor:(NSString * _Nonnull)text includePartialMatches:(BOOL)includePartialMatches includeHiddenCategories:(BOOL)includeHiddenCategories at:(CLLocation * _Nullable)location :(void (^ _Nonnull)(NSArray<KarmiesEmoji *> * _Nonnull, NSArray<NSString *> * _Nonnull, BOOL, BOOL))completion;
 - (BOOL)checkIfReadWithEmoji:(KarmiesEmoji * _Nonnull)emoji;
 - (void)markAsReadWithEmoji:(KarmiesEmoji * _Nonnull)emoji;
 @end
@@ -850,36 +845,34 @@ SWIFT_CLASS("_TtC10KarmiesSDK19KarmiesGeoplacement")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 @end
 
-@class FICImageCache;
-
-SWIFT_CLASS("_TtC10KarmiesSDK25KarmiesImageCacheDelegate")
-@interface KarmiesImageCacheDelegate : NSObject <FICImageCacheDelegate>
-- (void)imageCache:(FICImageCache * _Null_unspecified)imageCache wantsSourceImageForEntity:(id <FICEntity> _Null_unspecified)entity withFormatName:(NSString * _Null_unspecified)formatName completionBlock:(FICImageRequestCompletionBlock _Null_unspecified)completionBlock;
-- (void)imageCache:(FICImageCache * _Null_unspecified)imageCache cancelImageLoadingForEntity:(id <FICEntity> _Null_unspecified)entity withFormatName:(NSString * _Null_unspecified)formatName;
-- (BOOL)imageCache:(FICImageCache * _Null_unspecified)imageCache shouldProcessAllFormatsInFamily:(NSString * _Null_unspecified)formatFamily forEntity:(id <FICEntity> _Null_unspecified)entity;
-- (void)imageCache:(FICImageCache * _Null_unspecified)imageCache errorDidOccurWithMessage:(NSString * _Null_unspecified)errorMessage;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
 
 SWIFT_CLASS("_TtC10KarmiesSDK13KarmiesImages")
 @interface KarmiesImages : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesImages * _Nonnull shared;)
 + (KarmiesImages * _Nonnull)shared;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 /**
   Returns an image for a category.
   \param category The category.
 
-  \param async Flag to return asyncrhonously even if the image is cached.
+  \param reload Flag to reload from network even if the image is cached.
 
-  \param completion Called with the image when loaded, synchronously if cached and async was not specified, else asynchronously.
+  \param completion Called with the image once loaded, synchronously if cached in memory else asynchronously.
 
-
-  returns:
-  True if the image is cached completion was called synchronously.
 */
-- (BOOL)imageFor:(KarmiesCategory * _Nonnull)category async:(BOOL)async completion:(void (^ _Nullable)(UIImage * _Nullable))completion;
+- (void)imageFor:(KarmiesCategory * _Nonnull)category reload:(BOOL)reload completion:(void (^ _Nullable)(UIImage * _Nullable))completion;
+/**
+  Returns an image for an emoji name.
+  \param name The emoji name.
+
+  \param size The size to return (normal or large), defaults to normal.
+
+  \param reload Flag to reload from network even if the image is cached.
+
+  \param completion Called with the image once loaded, synchronously if cached in memory else asynchronously.
+
+*/
+- (void)imageForEmojiNamed:(NSString * _Nonnull)name completion:(void (^ _Nullable)(UIImage * _Nullable))completion;
 @end
 
 @class UICollectionViewFlowLayout;
@@ -1021,7 +1014,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 @end
 
-@class CLPlacemark;
 
 SWIFT_CLASS("_TtC10KarmiesSDK15KarmiesLocation")
 @interface KarmiesLocation : NSObject
@@ -1048,6 +1040,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesLocat
 + (KarmiesLocationManager * _Nonnull)shared;
 @property (nonatomic, readonly, strong) CLLocationManager * _Nonnull locationManager;
 @property (nonatomic, readonly, strong) CLLocation * _Nullable currentLocation;
+@property (nonatomic, readonly, strong) CLPlacemark * _Nullable currentPlacemark;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 - (void)begin;
 - (void)updateLocationWith:(void (^ _Nullable)(CLLocation * _Nullable))completionHandler;
@@ -1292,7 +1285,18 @@ SWIFT_CLASS("_TtC10KarmiesSDK15KarmiesRenderer")
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) KarmiesRenderer * _Nonnull shared;)
 + (KarmiesRenderer * _Nonnull)shared;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
-- (NSTextAttachment * _Nonnull)imageTextAttachmentWithStatusWithImage:(UIImage * _Nonnull)image lineHeight:(CGFloat)lineHeight;
+- (NSTextAttachment * _Nonnull)imageTextAttachmentWithImage:(UIImage * _Nonnull)image lineHeight:(CGFloat)lineHeight;
+/**
+  Resize an image.
+  \param image the image
+
+  \param size the new size
+
+
+  returns:
+  the resized image
+*/
+- (UIImage * _Nonnull)resizeWithImage:(UIImage * _Nonnull)image size:(CGSize)size;
 @end
 
 
@@ -1386,6 +1390,11 @@ SWIFT_CLASS("_TtC10KarmiesSDK31KarmiesWebFeatureViewController")
 @end
 
 
+@interface NSMutableData (SWIFT_EXTENSION(KarmiesSDK))
+- (void)appendBytes:(NSArray<NSNumber *> * _Nonnull)arrayOfBytes;
+@end
+
+
 @interface NSNumber (SWIFT_EXTENSION(KarmiesSDK))
 @end
 
@@ -1440,19 +1449,19 @@ SWIFT_CLASS("_TtC10KarmiesSDK15SessionDelegate")
 @end
 
 
-@interface SessionDelegate (SWIFT_EXTENSION(KarmiesSDK)) <NSURLSessionDataDelegate>
-- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didReceiveResponse:(NSURLResponse * _Nonnull)response completionHandler:(void (^ _Nonnull)(enum NSURLSessionResponseDisposition))completionHandler;
-- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didBecomeDownloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask;
-- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didReceiveData:(NSData * _Nonnull)data;
-- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask willCacheResponse:(NSCachedURLResponse * _Nonnull)proposedResponse completionHandler:(void (^ _Nonnull)(NSCachedURLResponse * _Nullable))completionHandler;
-@end
-
-
 @interface SessionDelegate (SWIFT_EXTENSION(KarmiesSDK)) <NSURLSessionStreamDelegate>
 - (void)URLSession:(NSURLSession * _Nonnull)session readClosedForStreamTask:(NSURLSessionStreamTask * _Nonnull)streamTask;
 - (void)URLSession:(NSURLSession * _Nonnull)session writeClosedForStreamTask:(NSURLSessionStreamTask * _Nonnull)streamTask;
 - (void)URLSession:(NSURLSession * _Nonnull)session betterRouteDiscoveredForStreamTask:(NSURLSessionStreamTask * _Nonnull)streamTask;
 - (void)URLSession:(NSURLSession * _Nonnull)session streamTask:(NSURLSessionStreamTask * _Nonnull)streamTask didBecomeInputStream:(NSInputStream * _Nonnull)inputStream outputStream:(NSOutputStream * _Nonnull)outputStream;
+@end
+
+
+@interface SessionDelegate (SWIFT_EXTENSION(KarmiesSDK)) <NSURLSessionDataDelegate>
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didReceiveResponse:(NSURLResponse * _Nonnull)response completionHandler:(void (^ _Nonnull)(enum NSURLSessionResponseDisposition))completionHandler;
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didBecomeDownloadTask:(NSURLSessionDownloadTask * _Nonnull)downloadTask;
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask didReceiveData:(NSData * _Nonnull)data;
+- (void)URLSession:(NSURLSession * _Nonnull)session dataTask:(NSURLSessionDataTask * _Nonnull)dataTask willCacheResponse:(NSCachedURLResponse * _Nonnull)proposedResponse completionHandler:(void (^ _Nonnull)(NSCachedURLResponse * _Nullable))completionHandler;
 @end
 
 @class NSURLSessionTaskMetrics;
@@ -1468,9 +1477,19 @@ SWIFT_CLASS("_TtC10KarmiesSDK15SessionDelegate")
 
 
 
+@interface UIApplication (SWIFT_EXTENSION(KarmiesSDK))
+@end
+
+
 @interface UIButton (SWIFT_EXTENSION(KarmiesSDK))
-- (void)af_cancelImageRequestFor:(UIControlState)state;
-- (void)af_cancelBackgroundImageRequestFor:(UIControlState)state;
+@end
+
+
+@interface UIColor (SWIFT_EXTENSION(KarmiesSDK))
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
 @end
 
 
@@ -1480,43 +1499,32 @@ SWIFT_CLASS("_TtC10KarmiesSDK15SessionDelegate")
 
 
 @interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
-- (UIImage * _Nullable)af_imageFilteredWithCoreImageFilter:(NSString * _Nonnull)name parameters:(NSDictionary<NSString *, id> * _Nullable)parameters;
 @end
 
 
 @interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
-- (UIImage * _Nonnull)af_imageRoundedWithCornerRadius:(CGFloat)radius divideRadiusByImageScale:(BOOL)divideRadiusByImageScale;
-- (UIImage * _Nonnull)af_imageRoundedIntoCircle;
-@end
-
-
-@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
-+ (UIImage * _Nullable)af_threadSafeImageWith:(NSData * _Nonnull)data;
-+ (UIImage * _Nullable)af_threadSafeImageWith:(NSData * _Nonnull)data scale:(CGFloat)scale;
-@end
-
-
-@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
-- (UIImage * _Nonnull)af_imageScaledTo:(CGSize)size;
-- (UIImage * _Nonnull)af_imageAspectScaledToFit:(CGSize)size;
-- (UIImage * _Nonnull)af_imageAspectScaledToFill:(CGSize)size;
-@end
-
-
-@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
-@property (nonatomic, readonly) BOOL af_containsAlphaComponent;
-@property (nonatomic, readonly) BOOL af_isOpaque;
-@end
-
-
-@interface UIImage (SWIFT_EXTENSION(KarmiesSDK))
-@property (nonatomic) BOOL af_inflated;
-- (void)af_inflate;
+- (UIImage * _Nonnull)kf_normalized;
+- (UIImage * _Nonnull)kf_imageWithRoundRadius:(CGFloat)radius fit:(CGSize)size scale:(CGFloat)scale;
+- (UIImage * _Nonnull)kf_resizeTo:(CGSize)size;
+- (UIImage * _Nonnull)kf_blurredWithRadius:(CGFloat)radius;
+- (UIImage * _Nonnull)kf_overlayingWith:(UIColor * _Nonnull)color fraction:(CGFloat)fraction;
+- (UIImage * _Nonnull)kf_tintedWith:(UIColor * _Nonnull)color;
+- (UIImage * _Nonnull)kf_adjustedWithBrightness:(CGFloat)brightness contrast:(CGFloat)contrast saturation:(CGFloat)saturation inputEV:(CGFloat)inputEV;
 @end
 
 
 @interface UIImageView (SWIFT_EXTENSION(KarmiesSDK))
-- (void)af_cancelImageRequest;
+- (BOOL)shouldPreloadAllGIF;
+@end
+
+
+@interface UIImageView (SWIFT_EXTENSION(KarmiesSDK))
+@end
+
+
+@interface UIImageView (SWIFT_EXTENSION(KarmiesSDK))
+- (void)kf_cancelDownloadTask;
+@property (nonatomic, readonly, copy) NSURL * _Nullable kf_webURL;
 @end
 
 
