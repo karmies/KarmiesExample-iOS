@@ -1,11 +1,11 @@
 PODS:
-  - KarmiesSDK (3.1.0)
+  - KarmiesSDK (3.1.1)
 
 DEPENDENCIES:
   - KarmiesSDK
 
 SPEC CHECKSUMS:
-  KarmiesSDK: 593c8fd15a76397baab67e945507c4a833fba4be
+  KarmiesSDK: 0bdac8f6880ae4e1d29add98848e034c4d9e5799
 
 PODFILE CHECKSUM: 30cd5e76eb7ecd0ab8e7346683d7e19ba0c46bd2
 

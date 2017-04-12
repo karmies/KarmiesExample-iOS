@@ -277,7 +277,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Karmies;
 				TargetAttributes = {
 					DA5DC6A71E66207300DD05B8 = {
