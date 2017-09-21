@@ -15,7 +15,7 @@ class MessagesViewController: KarmiesMessagesAppViewController {
     override var clientID: String {
         
         // Provide client ID for Karmies stickers
-        return "default"
+        return "default_stickers"
     }
     
     override var monitorLocation: Bool {

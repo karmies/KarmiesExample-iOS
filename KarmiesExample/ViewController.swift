@@ -37,7 +37,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         inputTextView.becomeFirstResponder()
     }
     
-    func tableAction(_ sender: UIGestureRecognizer) {
+    @objc func tableAction(_ sender: UIGestureRecognizer) {
         let messageView = sender.view as! UITextView
         let messagePoint  = sender.location(in: messageView)
         if let messageLink = Karmies.shared.messages.link(at: messagePoint, in: messageView, outgoing: true) {
